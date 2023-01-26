@@ -6,6 +6,12 @@ on:
       - main
 
 jobs:
+  publish:
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    
+jobs:
   release:
     runs-on: ubuntu-latest
     steps:
