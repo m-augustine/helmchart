@@ -1,0 +1,9 @@
+apiVersion: v2
+
+description: The only helm chart you will ever need
+name: helmchart
+type: application
+version: 1.0.0
+
+
+#1.0.0 - Initial push

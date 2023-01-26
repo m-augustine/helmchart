@@ -1,0 +1,198 @@
+{{- if .Values.rules.enabled }}
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+    release: prometheus
+spec:
+  groups:
+  {{- if (gt (len .Values.rules.customRules) 0) }}
+  - name: {{ include "app.fullname" . }}.rules
+    rules:
+      {{- with .Values.rules.customRules }}
+        {{- toYaml . | nindent 6 }}
+      {{- end }}
+  {{- end }}
+
+  #Kubernetes apps rules
+  {{- if hasKey .Values.rules "kubernetes" }}
+  {{- if .Values.rules.kubernetes.defaultRules.enabled }}
+  - name: {{ include "app.fullname" . }}.kubernetes-apps.rules
+    rules:
+    - alert: KubePodCrashLooping
+      annotations:
+        description: 'Pod {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.pod {{ "}}" }} ({{ "{{" }} $labels.container {{ "}}" }}) is in waiting state (reason: "CrashLoopBackOff").'
+        summary: Pod is crash looping.
+      expr: max_over_time(kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff", job="kube-state-metrics", namespace="{{ .Release.Namespace }}", pod=~"{{ include "app.fullname" $ }}.*"}[10m])* 60 * 5 > 0
+      for: 15m
+      labels:
+        severity: warning
+        team: {{ .Values.rules.team }}
+
+    - alert: KubePodCrashLooping
+      annotations:
+        description: 'Pod {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.pod {{ "}}" }} ({{ "{{" }} $labels.container {{ "}}" }}) is in waiting state (reason: "CrashLoopBackOff").'
+        summary: Pod is crash looping.
+      expr: max_over_time(kube_pod_container_status_waiting_reason{reason="CrashLoopBackOff", job="kube-state-metrics", namespace="{{ .Release.Namespace }}", pod=~"{{ include "app.fullname" $ }}.*"}[10m])* 60 * 5 > 1
+      for: 15m
+      labels:
+        severity: critical
+        team: {{ .Values.rules.team }}
+
+    - alert: KubePodNotReady
+      annotations:
+        description: Pod {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.pod {{ "}}" }} has been in a non-ready state for longer than 15 minutes.
+        summary: Pod has been in a non-ready state for more than 15 minutes.
+      expr: |-
+        sum by (namespace, pod) (
+          max by(namespace, pod) (
+            kube_pod_status_phase{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", phase=~"Pending|Unknown", pod=~"{{ include "app.fullname" $ }}.*"}
+          ) * on(namespace, pod) group_left(owner_kind) topk by(namespace, pod) (
+            1, max by(namespace, pod, owner_kind) (kube_pod_owner{owner_kind!="Job"})
+          )
+        ) > 0
+      for: 15m
+      labels:
+        severity: high
+        team: {{ .Values.rules.team }}
+
+    {{- if eq .Values.kind "Deployment" }}
+    - alert: KubeDeploymentGenerationMismatch
+      annotations:
+        description: Deployment generation for {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.deployment {{ "}}" }} does not match, this indicates that the Deployment has failed but has not been rolled back.
+        summary: Deployment generation mismatch due to possible roll-back
+      expr: |-
+        kube_deployment_status_observed_generation{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}
+          !=
+        kube_deployment_metadata_generation{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}
+      for: 15m
+      labels:
+        severity: warning
+        team: {{ .Values.rules.team }}
+
+    - alert: KubeDeploymentReplicasMismatch
+      annotations:
+        description: Deployment {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.deployment {{ "}}" }} has not matched the expected number of replicas for longer than 15 minutes.
+        summary: Deployment has not matched the expected number of replicas.
+      expr: |-
+        (
+          kube_deployment_status_replicas_available{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}
+            /
+          kube_deployment_spec_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}
+          
+        ) < .5 
+          and 
+        (
+          changes(kube_deployment_status_replicas_updated{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}[5m])
+            ==
+          0
+        )
+      for: 15m
+      labels:
+        severity: critical
+        team: {{ .Values.rules.team }}
+
+    - alert: KubeDeploymentReplicasMismatch
+      annotations:
+        description: Deployment {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.deployment {{ "}}" }} has not matched the expected number of replicas for longer than 15 minutes.
+        summary: Deployment has not matched the expected number of replicas.
+      expr: |-
+        (
+          kube_deployment_spec_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}
+            !=
+          kube_deployment_status_replicas_available{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}
+        ) and (
+          changes(kube_deployment_status_replicas_updated{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", deployment=~"{{ include "app.fullname" $ }}.*"}[5m])
+            ==
+          0
+        )
+      for: 15m
+      labels:
+        severity: warning
+        team: {{ .Values.rules.team }}
+    {{- end }}
+
+    - alert: KubeContainerWaiting
+      annotations:
+        description: pod/{{ "{{" }} $labels.pod {{ "}}" }} in namespace {{ "{{" }} $labels.namespace {{ "}}" }} on container {{ "{{" }} $labels.container {{ "}}" }} has been in waiting state for longer than 1 hour.
+        summary: Pod container waiting longer than 1 hour
+      expr: sum by (namespace, pod, container) (kube_pod_container_status_waiting_reason{job="kube-state-metrics", namespace="{{ .Release.Namespace }}"}) > 0
+      for: 1h
+      labels:
+        severity: warning
+        team: {{ .Values.rules.team }}
+
+    - alert: KubeHpaReplicasMismatch
+      annotations:
+        description: HPA {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.horizontalpodautoscaler {{ "}}" }} has not matched the desired number of replicas for longer than 15 minutes.
+        summary: HPA has not matched descired number of replicas.
+      expr: |-
+        (kube_horizontalpodautoscaler_status_desired_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"}
+          !=
+        kube_horizontalpodautoscaler_status_current_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"})
+          and
+        (kube_horizontalpodautoscaler_status_current_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"}
+          >
+        kube_horizontalpodautoscaler_spec_min_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"})
+          and
+        (kube_horizontalpodautoscaler_status_current_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"}
+          <
+        kube_horizontalpodautoscaler_spec_max_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"})
+          and
+        changes(kube_horizontalpodautoscaler_status_current_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"}[15m]) == 0
+      for: 15m
+      labels:
+        severity: warning
+        team: {{ .Values.rules.team }}
+        
+    - alert: KubeHpaMaxedOut
+      annotations:
+        description: HPA {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.horizontalpodautoscaler {{ "}}" }} has been running at max replicas for longer than 15 minutes.
+        summary: HPA is running at max replicas
+      expr: |-
+        kube_horizontalpodautoscaler_status_current_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"}
+          ==
+        kube_horizontalpodautoscaler_spec_max_replicas{job="kube-state-metrics", namespace="{{ .Release.Namespace }}", horizontalpodautoscaler=~"{{ include "app.fullname" $ }}.*"}
+      for: 15m
+      labels:
+        severity: warning
+        team: {{ .Values.rules.team }}
+  {{- end }}
+  {{- end }}
+
+
+  #Kubernetes jobs rules
+  {{- if hasKey .Values.rules "kubernetesJobs" }}
+  {{- if .Values.rules.kubernetesJobs.enabled }}
+  {{- range $name, $job := $.Values.jobs }}
+  {{- if $job.enabled }}
+  - name: {{ include "app.fullname" $ }}.kubernetes-jobs.rules
+    rules:
+    - alert: KubeJobCompletion
+      annotations:
+        description: Job {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.job_name {{ "}}" }} is taking more than {{ $job.alerts.completionTime.time }} to complete.
+        summary: Job {{ "{{" }} $labels.job_name {{ "}}" }} did not complete in time
+      expr: kube_job_spec_completions{job="kube-state-metrics", namespace="{{ $.Release.Namespace }}", job_name=~"{{ include "app.fullname" $ }}-{{ $name }}.*"} - kube_job_status_succeeded{job="kube-state-metrics", namespace="{{ $.Release.Namespace }}", job_name=~"{{ include "app.fullname" $ }}-{{ $name }}.*"}  > 0
+      for: {{ $job.alerts.completionTime.time }}
+      labels:
+        severity: {{ $job.alerts.completionTime.severity }}
+        team: {{ $.Values.rules.team }}
+
+    - alert: KubeJobFailed
+      annotations:
+        description: Job {{ "{{" }} $labels.namespace {{ "}}" }}/{{ "{{" }} $labels.job_name {{ "}}" }} failed to complete. Removing failed job after investigation should clear this alert.
+        summary: Job {{ "{{" }} $labels.job_name {{ "}}" }} failed to complete.
+      expr: kube_job_failed{job="kube-state-metrics", namespace="{{ $.Release.Namespace }}", job_name=~"{{ include "app.fullname" $ }}-{{ $name }}.*"}  > 0
+      for: 15m
+      labels:
+        severity: {{ $job.alerts.failure.severity }}
+        team: {{ $.Values.rules.team }}
+
+  {{- end }}
+  {{- end }}
+  {{- end }}
+  {{- end }}
+
+{{- end }}

@@ -1,0 +1,318 @@
+# Default values for base.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: quay.io/image
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+config: {}
+
+files: {}
+  # script.sh: |
+  #   #! /bin/bash
+  #   VARIABLE=whatever
+  #   echo ${VARIABLE}
+  # test-config.yaml: |
+  #   app:
+  #     workers:
+  #       count: 2
+  #       weight: 40
+  #       seetings:
+  #         key: "values"
+  #     masters:
+  #       count: 1
+        
+
+secrets: {}
+
+secretFiles:  {} #Similar to .Values.files, but should be placed in the secrets.sops file
+
+imagePullSecrets: []
+
+command: []
+args: []
+
+## Override the nodes DNS settings that pods normally inherit
+dnsConfig: {}
+  # nameservers:
+  #   - 1.2.3.4
+  # searches:
+  #   - sub.domain.com
+
+strategy:
+  # type: RollingUpdate
+  # rollingUpdate:
+  #   maxSurge: 25%
+  #   maxUnavailable: 25%
+
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+
+  # Annotations to add to the service account
+  annotations: {}
+
+  # The name of the service account to use. If not set and create is true, a name is generated using the fullname template
+  name: {}
+
+# Set the RBAC for the service account
+rbac: 
+  enabled: false
+  cluster: true  # Role or ClusterRole
+  rules: 
+    # - apiGroups: [""] 
+    #   resources: ["pods"]
+    #   verbs: ["get", "watch", "list"]
+
+podAnnotations: {}
+
+securityContext: {}
+  # fsGroup: 2000
+
+podSecurityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
+
+service:
+  type: ClusterIP
+  ports: {}
+    #app:
+      #port: 8443
+      #containerPort: 8443
+      #protocol: TCP
+      #appProtocol: grpc ### not required. This tells Kuma what the protocol the app is. grpc, tcp, http, kafka
+    #metrics:
+      #port: 9092
+      #containerPort: 9092
+      #protocol: TCP
+      #appProtocol: tcp ### not required. This tells Kuma what the protocol the app is. grpc, tcp, http, kafka
+
+metrics: #Prometheus metrics
+  enabled: true
+  interval: 90s
+  # path: ""   defaults to "/metrics"
+  # port: ""   defaults to "metrics"
+ 
+rules: #Promtheus rules
+  enabled: true
+  team: team_name #for alert routing
+  kubernetes:
+    defaultRules:
+      enabled: true
+  kubernetesJobs:
+    enabled: true
+  customRules: {}
+    # - alert: KubeJobCompletion
+    #   annotations:
+    #     summary: Job did not complete in time
+    #   expr: kube_job_spec_completions{job="kube-state-metrics", namespace=~".*"} - kube_job_status_succeeded{job="kube-state-metrics", namespace=~".*"}  > 0
+    #   for: 48h
+    #   labels:
+    #     severity: warning
+    #     team: platform
+    # - alert: KubeJobFailed
+    #   annotations:
+    #     description: Job {{ $labels.namespace }}/{{ $labels.job_name }} failed to complete. Removing failed job after investigation should clear this alert.
+    #     summary: Job failed to complete.
+    #   expr: kube_job_failed{job="kube-state-metrics", namespace=~".*"}  > 0
+    #   for: 15m
+    #   labels:
+    #     severity: warning
+    #     system: ops
+    #     team: platform
+
+persistence:
+  enabled: false
+  storageClass: {}
+  accessMode: ReadWriteOnce
+  size: 1Gi
+  mountPath: "/storage"
+
+ingress: {}
+  # public:
+  #   enabled: false
+  #   ingressClassName: nginx
+  #   pathType: Exact
+  #   annotations:
+  #     kubernetes.io/tls-acme: "true"
+  #     cert-manager.io/cluster-issuer: letsencrypt-production
+  #   hosts:
+  #     - host: sub.domain.com
+  #       paths:
+  #           - path: /
+  #             pathType: Prefix
+  #             serviceName: otherName #send to a different serviceName, OPTIONAL
+  #             servicePort: 4433 #send to a different port, OPTIONAL
+  #   tls:
+  #     - hosts:
+  #         - sub.domain.com
+
+  # ingressInAnotherNamespace:
+  #   enabled: true
+  #   namespace: test
+  #   ingressClassName: nginx
+  #   annotations:
+  #     kubernetes.io/tls-acme: "true"
+  #     cert-manager.io/cluster-issuer: letsencrypt-production
+  #   hosts:
+  #     - host: sub.domain.com
+  #       paths:
+  #           - path: /somePath
+  #             pathType: Prefix
+  #             serviceName: test-service
+  #             servicePort: 4433
+  #   tls:
+  #     - hosts:
+  #         - sub.domain.com
+
+## Jobs will use the same environment variables as the main deployment
+jobs: {}
+  # jobname:
+  #   enabled: true
+  #   cron:
+  #     enabled: false
+  #     schedule: "0 0 * * *"
+  #     suspend: false
+  #     successfulJobsHistoryLimit: 10
+  #     failedJobsHistoryLimit: 10
+  #   image:
+  #     repository: quay.io/image
+  #     tag: "1.0.0"
+  #   alerts:
+  #     # Severity: "warning"
+
+  #     # Completion Time will alert if the job is running longer than the completionTime.time
+  #     completionTime: 
+  #       time: 48h
+  #       severity: warning
+
+  #     #Failure will send an alert if the job fails the first try and all retries (if allocated)
+  #     failure:
+  #       severity: warning
+  #   backoffLimit: 60
+  #   restartPolicy: OnFailure
+  #   command: []
+  #   args: []
+  #   additionalVolumes: []
+  #   sideCarsFromTemplate: []
+  #     # - template: template-name
+  #   sideCars: []
+
+resources: {}
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+# livenessProbe:
+  # httpGet:
+  #   path: /
+  #   port: http
+  ### optional probe settings
+  # periodSeconds: 15
+  # failureThreshold: 10
+  # initialDelaySeconds: 30
+
+# readinessProbe:
+  # httpGet:
+  #   path: /
+  #   port: http
+  ### optional probe settings
+  # periodSeconds: 15
+  # failureThreshold: 10
+  # initialDelaySeconds: 30
+
+# startupProbe:
+#   httpGet:
+#     path: /
+#     port: http
+  ### optional probe settings
+  # periodSeconds: 15
+  # failureThreshold: 10
+  # initialDelaySeconds: 30
+
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
+nodeSelector: {}
+  # label: value
+
+tolerations: []
+
+affinity: {}
+
+######################
+#
+# Toggleable Resources
+#
+######################
+
+serviceMesh:
+  enabled: false
+  meshName: "default"
+
+openTelemetry:
+  inject: false
+  #override the default opentelemetry sidecar resources
+  # resources:
+  #   requests:
+  #     cpu: 50m
+  #     memory: 50Mi
+   ### The default config will send traces to the cluster level otel collector
+   ### Only update this if you need to.
+  # config:
+      # receivers:
+      #   jaeger:
+      #     protocols:
+      #       grpc:
+      #   otlp:
+      #     protocols:
+      #       grpc:
+      #       http:
+      # processors:
+
+      # exporters:
+      #   logging:
+      #   otlp:
+      #     endpoint: 
+
+      # service:
+      #   pipelines:
+      #     traces:
+      #       receivers: [otlp]
+      #       processors: []
+      #       exporters: [otlp]
+
+######################
+#
+# Additional Resources
+#
+######################
+
+initContainers: []
+
+initContainersFromTemplate: []
+  # - template: cloud-sql-proxy
+  #   port: 2222
+
+sideCars: []
+
+sideCarsFromTemplate: []
+  # - template: cloud-sql-proxy
+  #   port: 2222

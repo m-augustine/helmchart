@@ -1,0 +1,50 @@
+{{- if .Values.openTelemetry.inject -}}
+apiVersion: opentelemetry.io/v1alpha1
+kind: OpenTelemetryCollector
+metadata:
+  name: {{ include "app.fullname" . }}
+spec:
+  mode: sidecar
+  resources:
+  {{- if .Values.openTelemetry.resources }}
+  {{- with .Values.openTelemetry.resources }}
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- else }}
+    requests:
+      cpu: 50m
+      memory: 50Mi
+  {{- end }}
+  {{- if .Values.openTelemetry.config }}
+  {{- with .Values.openTelemetry.config }}
+  config: |
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- else }}
+  config: |
+    receivers:
+      jaeger:
+        protocols:
+          grpc:
+      otlp:
+        protocols:
+          grpc:
+          http:
+    processors:
+
+    exporters:
+      logging:
+      otlp:
+        endpoint: cluster-collector.open-telemetry.svc.cluster.local:4317
+        tls:
+          insecure: true
+
+    service:
+      pipelines:
+        traces:
+          receivers: [otlp]
+          processors: []
+          exporters: [otlp]
+
+  {{- end }}
+{{- end }}

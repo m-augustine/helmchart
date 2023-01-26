@@ -1,0 +1,124 @@
+{{- range $name, $job := $.Values.jobs }}
+{{- if and $job.enabled $job.cron.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ include "app.fullname" $ }}-{{ $name }}
+  labels:
+    {{- include "app.labels" $ | nindent 4 }}
+spec:
+  schedule: {{ $job.cron.schedule | quote }}
+  successfulJobsHistoryLimit: {{ $job.cron.successfulJobsHistoryLimit }}
+  failedJobsHistoryLimit: {{ $job.cron.failedJobsHistoryLimit }}
+  suspend: {{ $job.cron.suspend | default false }}
+  jobTemplate:
+    spec:
+      backoffLimit: {{ $job.backoffLimit }}
+      template:
+        metadata:
+          annotations:
+            {{- if $.Values.serviceMesh.enabled }}
+            kuma.io/sidecar-injection: enabled
+            kuma.io/mesh: {{ $.Values.serviceMesh.meshName }}
+            {{- end }}
+
+            {{- with $.Values.podAnnotations }}
+            {{- toYaml . | nindent 12 }}
+            {{- end }}
+            checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") $ | sha256sum }}
+            checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") $ | sha256sum }}
+            {{- if $.Values.openTelemetry.inject }}
+            sidecar.opentelemetry.io/inject: {{ include "app.fullname" $ }}
+            {{- end }}
+          labels:
+            {{- include "app.selectorLabels" $ | nindent 12 }}
+        spec:
+          restartPolicy: {{ $job.restartPolicy }}
+          serviceAccountName: {{ include "app.serviceAccountName" $ }}
+          {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with $.Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with $.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          initContainers: 
+          {{- if or ($job.initContainers) ($job.initContainersFromTemplate) }}
+
+          {{- range $job.initContainersFromTemplate }}
+            - {{ include "app.container" (merge (dict "container" . "pod" .) (omit $ "container" "pod")) | indent 10 | trim }}
+          {{- end }}
+
+          {{- range $job.initContainers }}
+            - {{ . }}
+          {{- end }}
+          {{- end }}
+          containers:
+            - name: {{ $name }}
+              image: {{ $job.image.repository }}:{{ $job.image.tag | default "latest" }}
+              envFrom:
+                - configMapRef:
+                    name: {{ include "app.fullname" $ }}
+                - secretRef:
+                    name: {{ include "app.fullname" $ }}
+              volumeMounts:
+                {{- range $job.additionalVolumes }}
+                - name: {{ .name }}
+                  mountPath: {{ .mountPath }}
+                  readOnly: {{ .readOnly }}
+                  {{-  if .subPath }}
+                  subPath: {{ .subPath }}
+                  {{- end }}
+                {{- end }}
+              command:
+              {{- range $job.command }}
+                - {{ . }}
+              {{- end }}
+              args:
+              {{- range $job.args }}
+                - {{ . }}
+              {{- end }}
+              env:
+              {{- if $job.env }}
+                {{- toYaml $job.env | nindent 14 }}
+              {{- end }}
+          {{- if or ($job.sideCars) ($job.sideCarsFromTemplate) }}
+          ####################
+          #
+          # Sidecars
+          #
+          ####################
+          {{- range $job.sideCarsFromTemplate }}
+            - {{ include "app.container" (merge (dict "container" . "pod" .) (omit $ "container" "pod")) | indent 10 | trim }}
+          {{- end }}
+
+          {{- range $job.sideCars }}
+            - {{ . }}
+          {{- end }}
+          {{- end }}
+
+          {{- with $.Values.nodeSelector }}
+          nodeSelector:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with $.Values.affinity }}
+          affinity:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          {{- with $.Values.tolerations }}
+          tolerations:
+            {{- toYaml . | nindent 8 }}
+          {{- end }}
+          volumes:
+            {{- range $job.additionalVolumes }}
+            - name: {{ .name }}
+              {{- toYaml .volume | nindent 14 }}
+            {{- end }}
+---
+{{- end }}
+{{- end }}

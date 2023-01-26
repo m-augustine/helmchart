@@ -1,0 +1,171 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "app.fullname" . }}
+  labels:
+    {{- include "app.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  {{- if .Values.strategy }}
+  strategy:
+    {{- .Values.strategy | toYaml | nindent 4 }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "app.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+      {{- if $.Values.serviceMesh.enabled }}
+        kuma.io/sidecar-injection: enabled
+        kuma.io/mesh: {{ $.Values.serviceMesh.meshName }}
+      {{- end }}
+
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+        checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+        checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") . | sha256sum }}
+      {{- if .Values.openTelemetry.inject }}
+        sidecar.opentelemetry.io/inject: {{ include "app.fullname" . }}
+      {{- end }}
+      labels:
+        {{- include "app.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "app.serviceAccountName" . }}
+      {{- if .Values.securityContext }}
+      securityContext:
+        {{- toYaml .Values.securityContext | nindent 8 }}
+      {{- end }}
+
+      ####################
+      #
+      # Init Containers
+      #
+      ####################
+      initContainers:
+      {{- if or ($.Values.initContainers) ($.Values.initContainersFromTemplate) }}
+
+      {{- range $.Values.initContainersFromTemplate }}
+        - {{ include "app.container" (merge (dict "container" . "pod" .) (omit $ "container" "pod")) | indent 10 | trim }}
+      {{- end }}
+
+      {{- range $.Values.initContainers }}
+        - {{ . }}
+      {{- end }}
+
+      {{- end }}
+
+      ####################
+      #
+      # Main Containers
+      #
+      ####################
+      {{- if .Values.dnsConfig }}
+      dnsPolicy: "None"
+      dnsConfig:
+        {{- toYaml .Values.dnsConfig | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: app
+          {{- if .Values.podSecurityContext }}
+          securityContext:
+            {{- toYaml .Values.podSecurityContext | nindent 12 }}
+          {{- end }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+          {{- range .Values.command }}
+            - "{{ . }}"
+          {{- end }}
+          args:
+          {{- range .Values.args }}
+            - {{ . }}
+          {{- end }}
+          ports:
+            {{- range $name, $service := $.Values.service.ports }}
+            - name: {{ $name }}
+              containerPort: {{ .containerPort }}
+              protocol: {{ .protocol }}
+            {{ end }}
+          {{- if .Values.livenessProbe }}
+          livenessProbe:
+            {{- toYaml .Values.livenessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.readinessProbe }}
+          readinessProbe:
+            {{- toYaml .Values.readinessProbe | nindent 12 }}
+          {{- end }}
+          {{- if .Values.startupProbe }}
+          startupProbe:
+            {{- toYaml .Values.startupProbe | nindent 12 }}
+          {{- end }}
+          volumeMounts:
+            {{- range $.Values.additionalVolumes }}
+            - name: {{ .name }}
+              mountPath: {{ .mountPath }}
+              readOnly: {{ .readOnly }}
+              {{-  if .subPath }}
+              subPath: {{ .subPath }}
+              {{- end }}
+            {{- end }}
+            {{- if $.Values.persistence.enabled }}
+            - name: storage
+              mountPath: {{ $.Values.persistence.mountPath }}
+              readOnly: false
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          envFrom:
+            - configMapRef:
+                name: {{ include "app.fullname" . }}
+            - secretRef:
+                name: {{ include "app.fullname" . }}
+      {{- if or ($.Values.sideCars) ($.Values.sideCarsFromTemplate) }}
+      ####################
+      #
+      # Sidecars
+      #
+      ####################
+      {{- range $.Values.sidesCarFromTemplate }}
+        - {{ include "app.container" (merge (dict "container" . "pod" .) (omit $ "container" "pod")) | indent 10 | trim }}
+      {{- end }}
+
+      {{- range $.Values.sideCars }}
+        - {{ . }}
+      {{- end }}
+      {{- end }}
+
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      ####################
+      #
+      # Volumes
+      #
+      ####################
+      volumes:
+        {{- range $.Values.additionalVolumes }}
+        - name: {{ .name }}
+          {{- toYaml .volume | nindent 10 }}
+        {{- end }}
+        {{- if .Values.persistence.enabled }}
+        - name: storage
+          persistentVolumeClaim:
+            claimName:  {{ include "app.fullname" . }}
+        {{- end }}
