@@ -111,7 +111,7 @@ spec:
               mountPath: /files
               readOnly: true
             - name: binary-files
-              mountPath: /files
+              mountPath: /files/binary
               readOnly: true
             {{- range $.Values.additionalVolumes }}
             - name: {{ .name }}
