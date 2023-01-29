@@ -26,7 +26,8 @@ files: {}
   #         key: "values"
   #     masters:
   #       count: 1
-        
+
+binaryFiles: {}
 
 secrets: {}
 

@@ -24,3 +24,15 @@ data:
     {{- $v  | nindent 4 }} 
   {{- end }}
   {{- end }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "app.fullname" $ }}-binary-files
+binaryData:
+  {{- range $k, $v := .Values.files }}
+  {{- if $v }}
+  {{ $k }}: |
+    {{- $v  | nindent 4 }} 
+  {{- end }}
+  {{- end }}
