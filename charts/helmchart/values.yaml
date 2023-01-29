@@ -97,13 +97,13 @@ service:
       #appProtocol: tcp ### not required. This tells Kuma what the protocol the app is. grpc, tcp, http, kafka
 
 metrics: #Prometheus metrics
-  enabled: true
+  enabled: false
   interval: 90s
   # path: ""   defaults to "/metrics"
   # port: ""   defaults to "metrics"
  
 rules: #Promtheus rules
-  enabled: true
+  enabled: false
   team: team_name #for alert routing
   kubernetes:
     defaultRules:
