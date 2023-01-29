@@ -108,10 +108,10 @@ spec:
           {{- end }}
           volumeMounts:
             - name: files
-              mountPath: {{ .Values.files.mountPath | default "/files" }}
+              mountPath: {{ .Values.filesMountPath | default "/files" }}
               readOnly: true
             - name: binary-files
-              mountPath: {{ .Values.binaryFiles.mountPath | default "/files/binary" }}
+              mountPath: {{ .Values.binaryFilesMountPath | default "/files/binary" }}
               readOnly: true
             {{- range $.Values.additionalVolumes }}
             - name: {{ .name }}
