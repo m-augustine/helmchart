@@ -107,6 +107,9 @@ spec:
             {{- toYaml .Values.startupProbe | nindent 12 }}
           {{- end }}
           volumeMounts:
+            - name: files
+              mountPath: /files
+              readOnly: true
             {{- range $.Values.additionalVolumes }}
             - name: {{ .name }}
               mountPath: {{ .mountPath }}
@@ -160,6 +163,9 @@ spec:
       #
       ####################
       volumes:
+        - name: files
+          configMap:
+            name: {{ include "app.fullname" $ }}-files
         {{- range $.Values.additionalVolumes }}
         - name: {{ .name }}
           {{- toYaml .volume | nindent 10 }}
