@@ -13,6 +13,7 @@ image:
 config: {}
 
 files: {}
+  # mountPath: /files
   # script.sh: |
   #   #! /bin/bash
   #   VARIABLE=whatever
