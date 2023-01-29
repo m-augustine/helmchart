@@ -141,9 +141,7 @@ ingress: {}
   # public:
   #   enabled: false
   #   ingressClassName: nginx
-  #   pathType: Exact
   #   annotations:
-  #     kubernetes.io/tls-acme: "true"
   #     cert-manager.io/cluster-issuer: letsencrypt-production
   #   hosts:
   #     - host: sub.domain.com
@@ -161,7 +159,6 @@ ingress: {}
   #   namespace: test
   #   ingressClassName: nginx
   #   annotations:
-  #     kubernetes.io/tls-acme: "true"
   #     cert-manager.io/cluster-issuer: letsencrypt-production
   #   hosts:
   #     - host: sub.domain.com
