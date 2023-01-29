@@ -30,7 +30,7 @@ kind: ConfigMap
 metadata:
   name: {{ include "app.fullname" $ }}-binary-files
 binaryData:
-  {{- range $k, $v := .Values.files }}
+  {{- range $k, $v := .Values.binaryFiles }}
   {{- if $v }}
   {{ $k }}: |
     {{- $v  | nindent 4 }} 
