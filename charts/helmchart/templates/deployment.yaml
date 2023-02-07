@@ -110,6 +110,9 @@ spec:
             - name: files
               mountPath: {{ .Values.filesMountPath | default "/files" }}
               readOnly: true
+            - name: secret-files
+              mountPath: {{ .Values.secretFilesMountPath | default "/secrets" }}
+              readOnly: true
             - name: binary-files
               mountPath: {{ .Values.binaryFilesMountPath | default "/files/binary" }}
               readOnly: true
@@ -168,6 +171,10 @@ spec:
       volumes:
         - name: files
           configMap:
+            name: {{ include "app.fullname" $ }}-files
+            defaultMode: 0755
+        - name: secret-files
+          secret:
             name: {{ include "app.fullname" $ }}-files
             defaultMode: 0755
         - name: binary-files
