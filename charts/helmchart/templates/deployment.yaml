@@ -175,7 +175,7 @@ spec:
             defaultMode: 0755
         - name: secret-files
           secret:
-            name: {{ include "app.fullname" $ }}-files
+            secretName: {{ include "app.fullname" $ }}-files
             defaultMode: 0755
         - name: binary-files
           configMap:
