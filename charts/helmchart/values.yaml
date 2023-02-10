@@ -303,6 +303,13 @@ openTelemetry:
 # Additional Resources
 #
 ######################
+additionalVolumes: []
+  # - name: certs
+  #   mountPath: /certs
+  #   readOnly: false
+  #   volume:
+  #     secret:
+  #       secretName: certs-ca-tls
 
 initContainers: []
 
