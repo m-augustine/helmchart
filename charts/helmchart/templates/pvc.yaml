@@ -4,12 +4,12 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name:  {{ include "app.fullname" . }}-{{ $item.name }}
+  name:  {{ include "app.fullname" $ }}-{{ $item.name }}
   labels:
-    {{- include "app.labels" . | nindent 4 }}
+    {{- include "app.labels" $ | nindent 4 }}
 spec:
   {{- if $item.storageClass }}
-  storageClassName: {{ $item.storageClass | quote }}
+  storageClassName: {{ $item.storageClass | quote | default "" }}
   {{- end }}
   accessModes:
     - {{ $item.accessMode | quote }}

@@ -126,11 +126,11 @@ spec:
             {{- end }}
             {{- range $item := $.Values.persistence }}
             {{- if $item.enabled }}
-            - name: storage-{{ $item.name }}
+            - name: {{ $item.name }}
               mountPath: {{ $item.mountPath }}
               readOnly: false
             {{- end }}
-            {{- end }} #End range 
+            {{- end }} 
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
@@ -191,8 +191,8 @@ spec:
         ### PVC
         {{- range $item := $.Values.persistence }}
         {{- if $item.enabled }}
-        - name: storage-{{ $item.name }}
+        - name: {{ $item.name }}
           persistentVolumeClaim:
-            claimName:  {{ include "app.fullname" . }}-{{ $item.name }}
-        {{- end }} #End if
-        {{- end }} #End range 
+            claimName:  {{ include "app.fullname" $ }}-{{ $item.name }}
+        {{- end }}
+        {{- end }} 
