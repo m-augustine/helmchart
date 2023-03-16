@@ -1,0 +1,9 @@
+apiVersion: v1
+description: A Helm chart for Kuma Resources
+name: kume-resources
+type: application
+version: 0.2.0
+
+####
+#0.1.0 - initial release
+#0.2.0 - several additions

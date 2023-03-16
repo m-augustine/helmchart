@@ -1,0 +1,17 @@
+{{- range $name, $item := $.Values.trafficTraces }}
+apiVersion: kuma.io/v1alpha1
+kind: TrafficTrace
+mesh: {{ $item.mesh }}
+metadata:
+  name: {{ $item.name }}
+spec:
+  {{- with $item.selectors }}
+  selectors:
+    {{- toYaml . | nindent 6 }}
+  {{- end }}
+  {{- with $item.conf }}
+  conf:
+    {{- toYaml . | nindent 6 }}
+  {{- end }}
+---
+{{- end }}

@@ -1,0 +1,85 @@
+meshes: {}
+  # - name: name1
+  #   mtls:
+  #     enabled: true
+  #     enabledBackend: name1
+  #     backends:
+  #       - name: name1
+  #         type: builtin
+  #   tracing:
+  #     enabled: true
+  #     defaultBackend: tracing1
+  #     backends: 
+  #       - name: tracin1
+  #         type: zipkin
+  #         conf: 
+  #           sampling: 99.9
+  #           url: 'https://tracing.svc.cluster.local'
+  #   logging:
+  #     enabled: true
+  #     backends: 
+  #       - name: logging1
+  #         format: '{ start_time: ''%START_TIME%'', source: ''%KUMA_SOURCE_SERVICE%'', destination: ''%KUMA_DESTINATION_SERVICE%'', source_address: ''%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%'', destination_address: ''%UPSTREAM_HOST%'', duration_millis: ''%DURATION%'', bytes_received: ''%BYTES_RECEIVED%'', bytes_sent: ''%BYTES_SENT%'' }'
+  #         type: tcp
+  #         conf: 
+  #           address: '127.0.0.1:5000'
+  #   metrics:
+  #     enabled: true
+  #     enabledBackend: name1
+  #     backends: 
+  #       - name: prometheus
+  #         type: prometheus
+  #         conf: 
+  #           port: 5670
+  #           path: /metrics"
+
+rateLimits: {}
+  # - name: rl_name
+  #   mesh: mesh_name
+  #   sources:
+  #     - match:
+  #         kuma.io/service: "*"
+  #   destinations:
+  #     - match:
+  #         kuma.io/service: backend_default_svc_80
+  #   conf:
+  #     http:
+  #       requests: 5
+  #       interval: 10s
+  #       onRateLimit:
+  #         status: 423
+  #         headers:
+  #           - key: "x-kuma-rate-limited"
+  #             value: "true"
+  #             append: true
+
+trafficTraces: {}
+  # - name: traffictrace
+  #   mesh: default
+  #   selectors: 
+  #     - match:
+  #         kuma.io/service: '*'
+  #   conf:
+  #     backend: jaeger-collector # or the name of any backend defined for the mesh
+
+trafficLogs: {}
+  # - name: log-all
+  #   mesh: staging
+  #   sources:
+  #     - match:
+  #         kuma.io/service: '*'
+  #   destinations:
+  #     - match:
+  #         kuma.io/service: '*'
+  #   confg:
+  #     backend: file
+
+trafficPermissions: {}
+  # - name: trafficPermissions
+  #   mesh: default
+  #   sources:
+  #     - match:
+  #         kuma.io/service: '*'
+  #   destinations:
+  #     - match:
+  #         kuma.io/service: '*'
