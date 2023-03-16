@@ -5,8 +5,8 @@ kind: Certificate
 metadata:
   name: {{ $name }}
 spec:
-  secretName: {{ $name }}-cert-secret
-  commonName: {{ $name }}-cert-secret
+  secretName: {{ $name }}-tls
+  commonName: {{ $name }}-tls
   isCA: true
   issuerRef:
     name: {{ $cert.issuer.name }}

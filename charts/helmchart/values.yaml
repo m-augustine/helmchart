@@ -241,7 +241,7 @@ resources: {}
   # failureThreshold: 10
   # initialDelaySeconds: 30
 
-certificates: []
+certificates: 
   # cert-name:
   #   issuer:
   #     name: issuer-name
