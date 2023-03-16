@@ -241,6 +241,11 @@ resources: {}
   # failureThreshold: 10
   # initialDelaySeconds: 30
 
+certificates: []
+  # cert-name:
+  #   issuer:
+  #     name: issuer-name
+  #     kind: ClusterIssuer
 
 autoscaling:
   enabled: false
