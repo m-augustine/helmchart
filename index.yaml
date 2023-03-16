@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   helmchart:
   - apiVersion: v2
+    created: "2023-03-16T22:25:16.068905655Z"
+    description: The only helm chart you will ever need
+    digest: 9eb48fc03abf34ec9d335927a4dcbda7a4372cdee0c16a240dfba910e10e4bc4
+    name: helmchart
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/helmchart-1.0.20/helmchart-1.0.20.tgz
+    version: 1.0.20
+  - apiVersion: v2
     created: "2023-03-16T22:22:44.290922879Z"
     description: The only helm chart you will ever need
     digest: b20bb87d4383343a5690f0eb930aab13a899a7ce5ec8819524707f46005afbce
@@ -163,6 +172,16 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/helmchart-1.0.1/helmchart-1.0.1.tgz
     version: 1.0.1
+  kuma-resources:
+  - apiVersion: v1
+    created: "2023-03-16T22:25:16.142294916Z"
+    description: A Helm chart for Kuma Resources
+    digest: e4ed5e862bd5b4062ffe73a588e9b6893a01ae4a52656d56ba8b4a9a96fe8adf
+    name: kuma-resources
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/kuma-resources-0.2.0/kuma-resources-0.2.0.tgz
+    version: 0.2.0
   kume-resources:
   - apiVersion: v1
     created: "2023-03-16T22:22:44.419422915Z"
@@ -173,4 +192,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/kume-resources-0.2.0/kume-resources-0.2.0.tgz
     version: 0.2.0
-generated: "2023-03-16T22:22:44.420107472Z"
+generated: "2023-03-16T22:25:16.142730123Z"
