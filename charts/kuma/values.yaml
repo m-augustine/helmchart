@@ -1,5 +1,8 @@
 meshes:
   # - name: name1
+  #   networking:
+  #     outbound:
+  #       passthrough: false
   #   mtls:
   #     enabledBackend: name1
   #     backends:

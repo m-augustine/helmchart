@@ -7,7 +7,7 @@ spec:
   {{- if $item.networking }}
   networking:
     outbound:
-      passthrough: {{ $item.outbound.passthrough }}
+      passthrough: {{ $item.networking.outbound.passthrough }}
   {{- end }}
   {{- if $item.mtls }}
   mtls: 
