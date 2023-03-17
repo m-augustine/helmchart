@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   helmchart:
   - apiVersion: v2
+    created: "2023-03-17T00:04:34.76916011Z"
+    description: The only helm chart you will ever need
+    digest: beadeeed05d10b5cda0ec2f7e8ed81b4b82e0278d2902fd1a388f0319fca3ecb
+    name: helmchart
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/helmchart-1.0.23/helmchart-1.0.23.tgz
+    version: 1.0.23
+  - apiVersion: v2
     created: "2023-03-16T23:56:43.137612084Z"
     description: The only helm chart you will ever need
     digest: 9909edb38b2a061cf8ce016532fcfd366d4f1d23ad4a54e2608396e26df6a7bc
@@ -210,4 +219,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/kume-resources-0.2.0/kume-resources-0.2.0.tgz
     version: 0.2.0
-generated: "2023-03-16T23:56:43.137846187Z"
+generated: "2023-03-17T00:04:34.769610511Z"
