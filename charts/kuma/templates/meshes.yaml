@@ -4,16 +4,16 @@ kind: Mesh
 metadata: 
   name: {{ $item.name }}
 spec: 
-  {{- if $item.mtls.enabled }}
+  {{- if $item.mtls }}
   mtls: 
-    enabled: {{ $item.mtls.enabled }}
+    enabled: true
     enabledBackend: {{ $item.mtls.enabledBackend }}
     {{- with $item.mtls.backends }}
     backends:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   {{- end }}
-  {{- if $item.tracing.enabled }}
+  {{- if $item.tracing }}
   tracing: 
     defaultBackend: {{ $item.tracing.defaultBackend }}
     {{- with $item.tracing.backends }}
@@ -21,7 +21,7 @@ spec:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   {{- end }}
-  {{- if $item.logging.enabled }}
+  {{- if $item.logging }}
   logging: 
     defaultBackend: {{ $item.logging.defaultBackend }}
     {{- with $item.logging.backends }}
@@ -29,7 +29,7 @@ spec:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   {{- end }}
-  {{- if $item.metrics.enabled }}
+  {{- if $item.metrics }}
   metrics: 
     enabledBackend: {{ $item.metrics.enabledBackend }}
     {{- with $item.metrics.backends }}

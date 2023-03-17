@@ -1,13 +1,11 @@
-meshes: {}
+meshes:
   # - name: name1
   #   mtls:
-  #     enabled: true
   #     enabledBackend: name1
   #     backends:
   #       - name: name1
   #         type: builtin
   #   tracing:
-  #     enabled: true
   #     defaultBackend: tracing1
   #     backends: 
   #       - name: tracin1
@@ -16,7 +14,6 @@ meshes: {}
   #           sampling: 99.9
   #           url: 'https://tracing.svc.cluster.local'
   #   logging:
-  #     enabled: true
   #     backends: 
   #       - name: logging1
   #         format: '{ start_time: ''%START_TIME%'', source: ''%KUMA_SOURCE_SERVICE%'', destination: ''%KUMA_DESTINATION_SERVICE%'', source_address: ''%KUMA_SOURCE_ADDRESS_WITHOUT_PORT%'', destination_address: ''%UPSTREAM_HOST%'', duration_millis: ''%DURATION%'', bytes_received: ''%BYTES_RECEIVED%'', bytes_sent: ''%BYTES_SENT%'' }'
@@ -24,7 +21,6 @@ meshes: {}
   #         conf: 
   #           address: '127.0.0.1:5000'
   #   metrics:
-  #     enabled: true
   #     enabledBackend: name1
   #     backends: 
   #       - name: prometheus
