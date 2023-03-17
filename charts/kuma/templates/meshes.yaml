@@ -4,6 +4,11 @@ kind: Mesh
 metadata: 
   name: {{ $item.name }}
 spec: 
+  {{- if $item.networking }}
+  networking:
+    outbound:
+      passthrough: {{ $item.outbound.passthrough }}
+  {{- end }}
   {{- if $item.mtls }}
   mtls: 
     enabled: true
