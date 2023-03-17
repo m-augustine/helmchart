@@ -29,7 +29,7 @@ meshes:
   #           port: 5670
   #           path: /metrics"
 
-rateLimits: {}
+rateLimits:
   # - name: rl_name
   #   mesh: mesh_name
   #   sources:
@@ -49,7 +49,7 @@ rateLimits: {}
   #             value: "true"
   #             append: true
 
-trafficTraces: {}
+trafficTraces:
   # - name: traffictrace
   #   mesh: default
   #   selectors: 
@@ -58,7 +58,7 @@ trafficTraces: {}
   #   conf:
   #     backend: jaeger-collector # or the name of any backend defined for the mesh
 
-trafficLogs: {}
+trafficLogs:
   # - name: log-all
   #   mesh: staging
   #   sources:
@@ -70,7 +70,7 @@ trafficLogs: {}
   #   confg:
   #     backend: file
 
-trafficPermissions: {}
+trafficPermissions:
   # - name: trafficPermissions
   #   mesh: default
   #   sources:
@@ -79,3 +79,9 @@ trafficPermissions: {}
   #   destinations:
   #     - match:
   #         kuma.io/service: '*'
+
+externalServices:
+  # - name: github
+  #   mesh: default
+  #   protocol: http2
+  #   address: github.com:443
