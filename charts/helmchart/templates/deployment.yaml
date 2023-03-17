@@ -187,8 +187,6 @@ spec:
         - name: {{ .name }}
           {{- toYaml .volume | nindent 10 }}
         {{- end }}
-
-        ### PVC
         {{- range $item := $.Values.persistence }}
         {{- if $item.enabled }}
         - name: {{ $item.name }}
