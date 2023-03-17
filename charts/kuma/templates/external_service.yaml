@@ -1,5 +1,5 @@
 {{- range $name, $item := $.Values.externalServices }}
-
+---
 apiVersion: kuma.io/v1alpha1
 kind: ExternalService
 mesh: {{ $item.mesh }}

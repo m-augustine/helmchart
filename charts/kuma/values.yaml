@@ -4,6 +4,7 @@ meshes:
   #     outbound:
   #       passthrough: false
   #   mtls:
+  #     enabled: true
   #     enabledBackend: name1
   #     backends:
   #       - name: name1
