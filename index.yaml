@@ -210,6 +210,15 @@ entries:
     version: 1.0.1
   kuma-resources:
   - apiVersion: v1
+    created: "2023-03-17T03:05:42.745192376Z"
+    description: A Helm chart for Kuma Resources
+    digest: a8fceddb4e222b731491324c0812025b0cbd78ff497817b2e0d5833ecf8172ee
+    name: kuma-resources
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/kuma-resources-0.2.4/kuma-resources-0.2.4.tgz
+    version: 0.2.4
+  - apiVersion: v1
     created: "2023-03-17T02:33:55.828794994Z"
     description: A Helm chart for Kuma Resources
     digest: 97b4d366d0109946ac433092cd4970601f31a568127202b3d68adea865d58c9c
@@ -255,4 +264,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/kume-resources-0.2.0/kume-resources-0.2.0.tgz
     version: 0.2.0
-generated: "2023-03-17T02:33:55.829074595Z"
+generated: "2023-03-17T03:05:42.745270577Z"
