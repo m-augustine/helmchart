@@ -316,7 +316,13 @@ additionalVolumes: []
   #     secret:
   #       secretName: certs-ca-tls
 
-initContainers: []
+initContainers:
+  - name: chown
+    image: busybox
+    command: ["sh", "-c", "chown -R 2000:2000 /srv/sftpgo"]
+    volumeMounts:
+    - name: storage
+      mountPath: /srv/sftpgo
 
 initContainersFromTemplate: []
   # - template: cloud-sql-proxy
