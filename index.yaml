@@ -2,6 +2,15 @@ apiVersion: v1
 entries:
   godaddy-webhook:
   - apiVersion: v1
+    appVersion: 0.1.
+    created: "2023-03-22T05:58:23.643892101Z"
+    description: A Helm chart for Kubernetes
+    digest: 72f59c4deee01c07000e3e7b39510b15f0b2e6f84003baa67fd75787e297734e
+    name: godaddy-webhook
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/godaddy-webhook-0.1.2/godaddy-webhook-0.1.2.tgz
+    version: 0.1.2
+  - apiVersion: v1
     appVersion: 0.1.1
     created: "2023-03-22T05:56:52.446110013Z"
     description: A Helm chart for Kubernetes
@@ -301,4 +310,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/kume-resources-0.2.0/kume-resources-0.2.0.tgz
     version: 0.2.0
-generated: "2023-03-22T05:56:52.446258215Z"
+generated: "2023-03-22T05:58:23.644059003Z"
