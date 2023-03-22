@@ -12,7 +12,7 @@ image:
 pod:
   securePort:
 
-groupName: acme.calcguard.com
+groupName: acme.calcguard.net
 
 certManager:
   namespace: cert-manager
