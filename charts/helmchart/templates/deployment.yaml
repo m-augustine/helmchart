@@ -138,6 +138,14 @@ spec:
                 name: {{ include "app.fullname" . }}
             - secretRef:
                 name: {{ include "app.fullname" . }}
+          env:
+            {{- range $item := $.Values.env.externalSecret }}
+            - name: {{ $item.name }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ $item.secretName }}
+                  key: {{ $item.secretKey }}
+            {{- end }}
       {{- if or ($.Values.sideCars) ($.Values.sideCarsFromTemplate) }}
       ####################
       #
