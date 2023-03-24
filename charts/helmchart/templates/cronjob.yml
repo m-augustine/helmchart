@@ -87,6 +87,13 @@ spec:
               {{- if $job.env }}
                 {{- toYaml $job.env | nindent 14 }}
               {{- end }}
+              {{- range $item := $.Values.env.externalSecret }}
+                - name: {{ $item.name }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ $item.secretName }}
+                      key: {{ $item.secretKey }}
+              {{- end }}
           {{- if or ($job.sideCars) ($job.sideCarsFromTemplate) }}
           ####################
           #
