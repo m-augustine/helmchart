@@ -3,7 +3,8 @@ apiVersion: v2
 description: The only helm chart you will ever need
 name: helmchart
 type: application
-version: 1.0.26
+version: 1.0.27
 
 
 #1.0 - Initial push
+#1.0.27 - job only flag
