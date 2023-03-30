@@ -33,6 +33,10 @@ spec:
           labels:
             {{- include "app.selectorLabels" $ | nindent 12 }}
         spec:
+          imagePullSecrets:
+          {{- range $name, $item := $.Values.imagePullSecrets }}
+            - name: {{ include "app.fullname" $ }}-{{ $name }}-pull-secret
+          {{- end }}
           restartPolicy: {{ $job.restartPolicy }}
           serviceAccountName: {{ include "app.serviceAccountName" $ }}
           {{- with $.Values.nodeSelector }}
