@@ -70,13 +70,13 @@ spec:
                 name: {{ include "app.fullname" $ }}
           volumeMounts:
             - name: files
-              mountPath: {{ .Values.filesMountPath | default "/files" }}
+              mountPath: {{ $.Values.filesMountPath | default "/files" }}
               readOnly: true
             - name: secret-files
-              mountPath: {{ .Values.secretFilesMountPath | default "/secrets" }}
+              mountPath: {{ $.Values.secretFilesMountPath | default "/secrets" }}
               readOnly: true
             - name: binary-files
-              mountPath: {{ .Values.binaryFilesMountPath | default "/files/binary" }}
+              mountPath: {{ $.Values.binaryFilesMountPath | default "/files/binary" }}
               readOnly: true
             {{- range $job.additionalVolumes }}
             - name: {{ .name }}
