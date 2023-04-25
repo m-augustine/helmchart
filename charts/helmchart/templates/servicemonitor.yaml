@@ -10,6 +10,7 @@ spec:
   - interval: {{ .Values.metrics.interval }}
     path: {{ .Values.metrics.path | default "/metrics" }}
     port: {{ .Values.metrics.port | default "metrics" }}
+  selector:
     matchLabels:
       {{- include "app.labels" . | nindent 6 }}
 {{- end }}
