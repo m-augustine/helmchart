@@ -3,6 +3,10 @@ apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata: 
   name: {{ $item.name }}
+  {{- with $item.annotations }}
+  annotations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec: 
   {{- if $item.networking }}
   networking:
