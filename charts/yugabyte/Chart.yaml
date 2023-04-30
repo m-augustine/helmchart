@@ -12,4 +12,4 @@ maintainers:
 name: yugabyte
 sources:
 - https://github.com/yugabyte/yugabyte-db
-version: 2.13.2
+version: 2.13.3
