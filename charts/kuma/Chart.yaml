@@ -2,7 +2,7 @@ apiVersion: v1
 description: A Helm chart for Kuma Resources
 name: kuma-resources
 type: application
-version: 0.2.6
+version: 0.2.7
 
 ####
 #0.1.0 - initial release

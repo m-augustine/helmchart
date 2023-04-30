@@ -15,7 +15,6 @@ spec:
   {{- end }}
   {{- if $item.mtls }}
   mtls: 
-    enabled: true
     enabledBackend: {{ $item.mtls.enabledBackend }}
     {{- with $item.mtls.backends }}
     backends:
