@@ -112,6 +112,5 @@ spec:
     size: {{ $root.Values.tls.certManager.certificates.keySize }}
   usages:
     - client auth
-  dnsNames: []
 ---
 {{- end }}
