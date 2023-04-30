@@ -437,4 +437,24 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/kume-resources-0.2.0/kume-resources-0.2.0.tgz
     version: 0.2.0
-generated: "2023-04-29T03:56:26.764095321Z"
+  yugabyte:
+  - apiVersion: v1
+    appVersion: 2.13.0.0-b42
+    created: "2023-04-30T01:59:37.984340756Z"
+    description: YugabyteDB is the high-performance distributed SQL database for building
+      global, internet-scale apps.
+    digest: 7009346fe310f9d31dee88ab95f6b29943994bc0e0c44c5e7878e9698339c7a6
+    home: https://www.yugabyte.com
+    icon: https://avatars0.githubusercontent.com/u/17074854?s=200&v=4
+    maintainers:
+    - email: ram@yugabyte.com
+      name: Ram Sri
+    - email: arnav@yugabyte.com
+      name: Arnav Agarwal
+    name: yugabyte
+    sources:
+    - https://github.com/yugabyte/yugabyte-db
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.13.0/yugabyte-2.13.0.tgz
+    version: 2.13.0
+generated: "2023-04-30T01:59:37.984438955Z"
