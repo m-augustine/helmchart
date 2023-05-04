@@ -446,6 +446,16 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/kume-resources-0.2.0/kume-resources-0.2.0.tgz
     version: 0.2.0
+  secret:
+  - apiVersion: v2
+    created: "2023-05-04T04:22:49.400147216Z"
+    description: Just one secret
+    digest: 848d60b6780b91897879f21ed595334344f515407cb82c8a3fd4ed88d8d44059
+    name: secret
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/secret-1.0.0/secret-1.0.0.tgz
+    version: 1.0.0
   yugabyte:
   - apiVersion: v1
     appVersion: 2.13.0.0-b42
@@ -523,4 +533,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.13.0/yugabyte-2.13.0.tgz
     version: 2.13.0
-generated: "2023-04-30T03:03:45.302675376Z"
+generated: "2023-05-04T04:22:49.400332918Z"
