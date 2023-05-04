@@ -448,6 +448,15 @@ entries:
     version: 0.2.0
   secret:
   - apiVersion: v2
+    created: "2023-05-04T04:30:59.567389549Z"
+    description: Just one secret
+    digest: 0c511082230ffa7e30b5da648ede7f9e20e7c35409b4eb8a102421fac45cd51d
+    name: secret
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/secret-1.0.1/secret-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     created: "2023-05-04T04:22:49.400147216Z"
     description: Just one secret
     digest: 848d60b6780b91897879f21ed595334344f515407cb82c8a3fd4ed88d8d44059
@@ -533,4 +542,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.13.0/yugabyte-2.13.0.tgz
     version: 2.13.0
-generated: "2023-05-04T04:22:49.400332918Z"
+generated: "2023-05-04T04:30:59.567695051Z"
