@@ -519,6 +519,28 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.16.4/yugabyte-2.16.4.tgz
     version: 2.16.4
+  - annotations:
+      charts.openshift.io/name: yugabyte
+    apiVersion: v2
+    appVersion: 2.16.4.0-b32
+    created: "2023-06-09T18:15:30.640978451Z"
+    description: YugabyteDB is the high-performance distributed SQL database for building
+      global, internet-scale apps.
+    digest: 03a55630bc9ab4fc75ba194272d48496abdedc49592f7abd65e001785e20cdc9
+    home: https://www.yugabyte.com
+    icon: https://avatars0.githubusercontent.com/u/17074854?s=200&v=4
+    kubeVersion: '>=1.17.0-0'
+    maintainers:
+    - email: sanketh@yugabyte.com
+      name: Sanketh Indarapu
+    - email: gjalla@yugabyte.com
+      name: Govardhan Reddy Jalla
+    name: yugabyte
+    sources:
+    - https://github.com/yugabyte/yugabyte-db
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.16.4-1/yugabyte-2.16.4-1.tgz
+    version: 2.16.4-1
   - apiVersion: v1
     appVersion: 2.13.0.0-b42
     created: "2023-04-30T02:50:29.770701118Z"
@@ -595,4 +617,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.13.0/yugabyte-2.13.0.tgz
     version: 2.13.0
-generated: "2023-06-09T16:16:24.562554617Z"
+generated: "2023-06-09T18:15:30.641121553Z"
