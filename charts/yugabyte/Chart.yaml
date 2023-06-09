@@ -15,4 +15,4 @@ maintainers:
 name: yugabyte
 sources:
 - https://github.com/yugabyte/yugabyte-db
-version: 2.16.4
+version: 2.16.4-1
