@@ -128,7 +128,7 @@ spec:
   selector:
     {{- include "yugabyte.appselector" ($appLabelArgs) | indent 4 }}
   type: {{ $endpoint.type }}
-  externalTrafficPolicy: {{ $endpoint.externalTrafficPolicy | default "Cluster" }}
+  # externalTrafficPolicy: {{ $endpoint.externalTrafficPolicy | default "Cluster" }}
   {{- if $endpoint.loadBalancerIP }}
   loadBalancerIP: {{ $endpoint.loadBalancerIP }}
   {{- end }}
