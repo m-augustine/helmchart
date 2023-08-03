@@ -31,6 +31,9 @@ spec:
             sidecar.opentelemetry.io/inject: {{ include "app.fullname" $ }}
             {{- end }}
           labels:
+            {{- with $job.podLabels }}
+              {{- toYaml . | nindent 12 }}
+            {{- end }}
             {{- include "app.selectorLabels" $ | nindent 12 }}
         spec:
           imagePullPolicy: {{ $job.image.pullPolicy }}

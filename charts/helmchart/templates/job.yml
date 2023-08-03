@@ -18,7 +18,7 @@ spec:
       {{- end }}
 
       {{- with $.Values.podAnnotations }}
-        {{- toYaml . | nindent 12 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
         checksum/config: {{ include (print $.Template.BasePath "/configmap.yaml") $ | sha256sum }}
         checksum/secret: {{ include (print $.Template.BasePath "/secret.yaml") $ | sha256sum }}
@@ -27,7 +27,7 @@ spec:
       {{- end }}
       labels:
       {{- with $job.podLabels }}
-        {{- toYaml . | nindent 12 }}
+        {{- toYaml . | nindent 8 }}
       {{- end }}
         {{- include "app.selectorLabels" $ | nindent 8 }}
     spec:
