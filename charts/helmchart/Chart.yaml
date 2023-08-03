@@ -3,7 +3,7 @@ apiVersion: v2
 description: The only helm chart you will ever need
 name: helmchart
 type: application
-version: 1.0.32
+version: 1.0.33
 
 
 #1.0 - Initial push
