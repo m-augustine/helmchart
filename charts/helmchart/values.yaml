@@ -78,8 +78,7 @@ rbac:
     #   resources: ["pods"]
     #   verbs: ["get", "watch", "list"]
 
-podAnnotations:
-  test: test
+podAnnotations: {}
 
 securityContext: {}
   # fsGroup: 2000
@@ -182,39 +181,37 @@ ingress: {}
   #         - sub.domain.com
 
 ## Jobs will use the same environment variables as the main deployment
-jobs: 
-  jobname:
-    enabled: true
-    cron:
-      enabled: true
-      schedule: "0 0 * * *"
-      suspend: false
-      successfulJobsHistoryLimit: 10
-      failedJobsHistoryLimit: 10
-    image:
-      repository: quay.io/image
-      tag: "1.0.0"
-    podLabels:
-      test: test
-    alerts:
-      # Severity: "warning"
+jobs: {}
+  # jobname:
+  #   enabled: true
+  #   cron:
+  #     enabled: false
+  #     schedule: "0 0 * * *"
+  #     suspend: false
+  #     successfulJobsHistoryLimit: 10
+  #     failedJobsHistoryLimit: 10
+  #   image:
+  #     repository: quay.io/image
+  #     tag: "1.0.0"
+  #   alerts:
+  #     # Severity: "warning"
 
-      # Completion Time will alert if the job is running longer than the completionTime.time
-      completionTime: 
-        time: 48h
-        severity: warning
+  #     # Completion Time will alert if the job is running longer than the completionTime.time
+  #     completionTime: 
+  #       time: 48h
+  #       severity: warning
 
-      #Failure will send an alert if the job fails the first try and all retries (if allocated)
-      failure:
-        severity: warning
-    backoffLimit: 60
-    restartPolicy: OnFailure
-    command: []
-    args: []
-    additionalVolumes: []
-    sideCarsFromTemplate: []
-      # - template: template-name
-    sideCars: []
+  #     #Failure will send an alert if the job fails the first try and all retries (if allocated)
+  #     failure:
+  #       severity: warning
+  #   backoffLimit: 60
+  #   restartPolicy: OnFailure
+  #   command: []
+  #   args: []
+  #   additionalVolumes: []
+  #   sideCarsFromTemplate: []
+  #     # - template: template-name
+  #   sideCars: []
 
 resources: {}
   # limits:
