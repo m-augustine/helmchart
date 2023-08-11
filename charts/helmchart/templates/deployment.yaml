@@ -32,6 +32,10 @@ spec:
         sidecar.opentelemetry.io/inject: {{ include "app.fullname" . }}
       {{- end }}
       labels:
+        {{- with .Values.podLabels }}
+          {{- toYaml . | nindent 8 }}
+        {{- end }}
+        
         {{- include "app.selectorLabels" . | nindent 8 }}
     spec:
       imagePullSecrets:

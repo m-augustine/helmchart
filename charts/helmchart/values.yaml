@@ -80,6 +80,8 @@ rbac:
 
 podAnnotations: {}
 
+podLabels: {}
+
 securityContext: {}
   # fsGroup: 2000
 
