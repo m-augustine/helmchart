@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "app.fullname" . }}-job
+  name: {{ include "app.fullname" . }}
 data:
   {{- range $k, $v := .Values.config }}
   {{- if $v }}
@@ -16,7 +16,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "app.fullname" $ }}-job-files
+  name: {{ include "app.fullname" $ }}-files
 data:
   {{- range $k, $v := .Values.files }}
   {{- if $v }}
@@ -28,7 +28,7 @@ data:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: {{ include "app.fullname" $ }}-job-binary-files
+  name: {{ include "app.fullname" $ }}-binary-files
 binaryData:
   {{- range $k, $v := .Values.binaryFiles }}
   {{- if $v }}

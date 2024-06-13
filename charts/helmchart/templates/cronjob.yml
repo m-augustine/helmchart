@@ -10,7 +10,7 @@ spec:
   schedule: {{ $job.cron.schedule | quote }}
   successfulJobsHistoryLimit: {{ $job.cron.successfulJobsHistoryLimit }}
   failedJobsHistoryLimit: {{ $job.cron.failedJobsHistoryLimit }}
-  suspend: {{ $job.cron.suspend | default false }}
+  suspend: {{ $job.cron.suspend | default fzalse }}
   jobTemplate:
     spec:
       backoffLimit: {{ $job.backoffLimit }}
@@ -148,11 +148,11 @@ spec:
                 defaultMode: 0755
             - name: secret-files
               secret:
-                secretName: {{ include "app.fullname" $ }}-job-files
+                secretName: {{ include "app.fullname" $ }}-files
                 defaultMode: 0755
             - name: binary-files
               configMap:
-                name: {{ include "app.fullname" $ }}-job-binary-files
+                name: {{ include "app.fullname" $ }}-binary-files
                 defaultMode: 0755
             {{- range $job.additionalVolumes }}
             - name: {{ .name }}
