@@ -39,6 +39,15 @@ entries:
     version: 0.1.0
   helmchart:
   - apiVersion: v2
+    created: "2024-06-13T02:52:26.917864574Z"
+    description: The only helm chart you will ever need
+    digest: 4e83303de73d68e5c6097b44e736128066733f86dbdd380a40a76993a4919462
+    name: helmchart
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/helmchart-1.0.43/helmchart-1.0.43.tgz
+    version: 1.0.43
+  - apiVersion: v2
     created: "2024-06-13T02:23:08.027517661Z"
     description: The only helm chart you will ever need
     digest: 4d420ee8519b4c27f0a43b67fb89cbebba7ea5e69812f22a8f5d855846ed4d79
@@ -400,6 +409,15 @@ entries:
     version: 1.0.1
   job:
   - apiVersion: v2
+    created: "2024-06-13T02:52:26.987861732Z"
+    description: The only helm chart you will ever need...for Kubernetes Jobs
+    digest: dd467e16f9f2993d7e030a6dccdf7b9fb7428728cf06e410cb0d96e296a0e9a4
+    name: job
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/job-1.0.43/job-1.0.43.tgz
+    version: 1.0.43
+  - apiVersion: v2
     created: "2024-06-13T02:23:08.118224076Z"
     description: The only helm chart you will ever need...for Kubernetes Jobs
     digest: 1b01d02d7f9ef8db31ff7aa75fc0ff99ae71eebc79a21adb5cfc85c33b8a5e12
@@ -756,4 +774,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.13.0/yugabyte-2.13.0.tgz
     version: 2.13.0
-generated: "2024-06-13T02:23:08.118872478Z"
+generated: "2024-06-13T02:52:26.988297135Z"
