@@ -43,6 +43,9 @@ secretFiles:  {} #Similar to .Values.files, but should be placed in the secrets.
 imagePullSecrets: []
   # docker: <b64 encoded docker config
 
+existingImagePullSecrets: []
+  # - docker-pull-secret #name of an existing docker config secret
+
 command: []
 args: []
 
