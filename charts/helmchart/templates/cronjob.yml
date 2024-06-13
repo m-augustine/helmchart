@@ -10,7 +10,7 @@ spec:
   schedule: {{ $job.cron.schedule | quote }}
   successfulJobsHistoryLimit: {{ $job.cron.successfulJobsHistoryLimit }}
   failedJobsHistoryLimit: {{ $job.cron.failedJobsHistoryLimit }}
-  suspend: {{ $job.cron.suspend | default fzalse }}
+  suspend: {{ $job.cron.suspend | default false }}
   jobTemplate:
     spec:
       backoffLimit: {{ $job.backoffLimit }}
