@@ -33,6 +33,9 @@ spec:
     spec:
       imagePullPolicy: {{ $job.image.pullPolicy }}
       imagePullSecrets:
+      {{- range $sec := $.Values.existingImagePullSecrets }}
+        - name: {{ $sec }}
+      {{- end }}
       {{- range $name, $item := $.Values.imagePullSecrets }}
         - name: {{ include "app.fullname" $ }}-{{ $name }}-pull-secret
       {{- end }}
