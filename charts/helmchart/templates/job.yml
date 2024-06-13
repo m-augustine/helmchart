@@ -141,15 +141,15 @@ spec:
       volumes:
         - name: files
           configMap:
-            name: {{ include "app.fullname" $ }}-files
+            name: {{ include "app.fullname" $ }}-job-files
             defaultMode: 0755
         - name: secret-files
           secret:
-            secretName: {{ include "app.fullname" $ }}-files
+            secretName: {{ include "app.fullname" $ }}-job-files
             defaultMode: 0755
         - name: binary-files
           configMap:
-            name: {{ include "app.fullname" $ }}-binary-files
+            name: {{ include "app.fullname" $ }}-job-binary-files
             defaultMode: 0755
         {{- range $job.additionalVolumes }}
         - name: {{ .name }}
