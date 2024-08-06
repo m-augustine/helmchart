@@ -1,0 +1,85 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wazuh-dashboard
+spec:
+  replicas: {{ .Values.dashboard.replicas }}
+  selector:
+    matchLabels:
+      app: wazuh-dashboard
+  template:
+    metadata:
+      labels:
+        app: wazuh-dashboard
+      name: wazuh-dashboard
+    spec:
+      volumes:
+        - name: config
+          configMap:
+            name: dashboard-conf
+        # - name: wazuh-config
+        #   configMap:
+        #     name: wazuh-config
+        - name: dashboard-certs
+          secret:
+            secretName: indexer-cert
+      containers:
+        - name: wazuh-dashboard
+          image: wazuh/wazuh-dashboard:4.8.1
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+          volumeMounts:
+            # - name:  wazuh-config
+            #   mountPath: /usr/share/wazuh-dashboard/data/wazuh/config/wazuh.yml
+            #   subPath: wazuh.yml
+            #   readOnly: false
+            - name: config
+              mountPath: /usr/share/wazuh-dashboard/config/opensearch_dashboards.yml
+              subPath: opensearch_dashboards.yml
+              readOnly: false
+            - name: dashboard-certs
+              mountPath: /usr/share/wazuh-dashboard/certs/root-ca.pem
+              subPath: ca.crt
+              readOnly: true
+          ports:
+            - containerPort: 5601
+              name: dashboard
+          env:
+            - name: INDEXER_URL
+              value: 'https://indexer:9200'
+            - name: INDEXER_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: indexer-username
+            - name: INDEXER_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: indexer-password
+            - name: DASHBOARD_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: dash-username
+            - name: DASHBOARD_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: dash-password
+            - name: SERVER_SSL_ENABLED
+              value: "false"
+            - name: WAZUH_API_URL
+              value: https://wazuh-manager-master-0.wazuh-cluster
+            - name: API_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: api-username
+            - name: API_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: credentials
+                  key: api-password

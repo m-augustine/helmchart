@@ -1,0 +1,10 @@
+apiVersion: cert-manager.io/v1
+kind: Certificate
+metadata:
+  name: indexer
+spec:
+  secretName: indexer-cert
+  commonName: indexer-cert
+  issuerRef:
+    name: {{ .Values.indexer.cert.issuerRef.name }}
+    kind: {{ .Values.indexer.cert.issuerRef.kind }}
