@@ -283,6 +283,10 @@ serviceMesh:
   enabled: false
   meshName: "default"
 
+generate:
+  keys:
+    ecdsa: false
+
 openTelemetry:
   inject: false
   #override the default opentelemetry sidecar resources
