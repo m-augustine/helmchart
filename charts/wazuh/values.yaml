@@ -1,9 +1,0 @@
-indexer:
-  replicas: 1
-  cert:
-    issuerRef: 
-      name: calcguard-ca
-      kind: ClusterIssuer #or Issuer
-
-dashboard:
-  replicas: 1
