@@ -284,6 +284,7 @@ serviceMesh:
   meshName: "default"
 
 generate:
+  keyPath: /keys
   keys:
     ecdsa: false
 

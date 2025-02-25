@@ -137,7 +137,14 @@ spec:
               mountPath: {{ $item.mountPath }}
               readOnly: false
             {{- end }}
-            {{- end }} 
+            {{- end }}
+          {{- with $.Values.generate  }}
+          {{- if .keys.ecdsa }}
+            - name: ecdsa
+              mountPath: {{ .keyPath }}
+              readOnly: true
+          {{- end }}
+          {{- end }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           envFrom:
@@ -209,3 +216,11 @@ spec:
             claimName:  {{ include "app.fullname" $ }}-{{ $item.name }}
         {{- end }}
         {{- end }} 
+        {{- with $.Values.generate  }}
+        {{- if .keys.ecdsa }}
+        - name: ecdsa
+          secret:
+            secretName: {{ include "app.fullname" $ }}-ecdsa
+            defaultMode: 0700
+        {{- end }}
+        {{- end }}
