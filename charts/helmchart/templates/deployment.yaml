@@ -141,7 +141,7 @@ spec:
           {{- with $.Values.generate  }}
           {{- if .keys.ecdsa }}
             - name: ecdsa
-              mountPath: {{ .keyPath }}
+              mountPath: {{ .keyPath }}/ecdsa
               readOnly: true
           {{- end }}
           {{- end }}
