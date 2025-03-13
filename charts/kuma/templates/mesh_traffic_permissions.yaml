@@ -1,0 +1,22 @@
+{{- range $name, $item := $.Values.meshTrafficPermissions }}
+apiVersion: kuma.io/v1alpha1
+kind: MeshTrafficPermission
+metadata:
+  name: {{ $item.name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    kuma.io/mesh: {{ $item.mesh }}
+spec:
+  from:
+  {{- range $key, $value := .sources }}
+  - targetRef:
+      kind: MeshSubset
+      tags:
+        {{ $key }}: {{ $value | squote }}
+  {{- end }}
+  targetRef:
+    kind: MeshSubset
+    tags:
+      {{ toYaml .destination }}
+---
+{{- end }}

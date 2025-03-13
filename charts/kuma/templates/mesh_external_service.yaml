@@ -1,0 +1,17 @@
+{{- range $.Values.meshExternalServices }}
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshExternalService
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    kuma.io/mesh: {{ .mesh }}
+spec:
+  match:
+    protocol: {{ .protocol }} 
+  endpoints:
+  {{- with .endpoints }}
+    {{- toYaml . | nindent 6 }}
+  {{- end }}
+{{- end }}

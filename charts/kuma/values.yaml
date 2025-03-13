@@ -104,3 +104,19 @@ externalServices:
   #   mesh: default
   #   protocol: http2
   #   address: github.com:443
+
+meshExternalServices:
+  # - name: github
+  #   mesh: default
+  #   protocol: tcp
+  #   endpoints:
+  #     - address: github.com
+  #       port: 443
+
+meshTrafficPermissions:
+  # - name: mesh-traffic-permission-name
+  #   mesh: default
+  #   sources: 
+  #     kuma.io/service: '*'
+  #   destination:
+  #     kuma.io/service: '*'
