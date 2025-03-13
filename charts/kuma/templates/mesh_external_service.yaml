@@ -12,6 +12,6 @@ spec:
     protocol: {{ .protocol }} 
   endpoints:
   {{- with .endpoints }}
-    {{- toYaml . | nindent 6 }}
+    {{- toYaml . | nindent 4 }}
   {{- end }}
 {{- end }}
