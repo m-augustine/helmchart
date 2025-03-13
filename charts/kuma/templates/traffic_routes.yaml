@@ -1,0 +1,21 @@
+{{- range $name, $item := $.Values.trafficRoutes }}
+apiVersion: kuma.io/v1alpha1
+kind: TrafficRoute
+mesh: {{ $item.mesh }}
+metadata:
+  name: {{ $item.name }}
+spec:
+  {{- with $item.sources }}
+  sources:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $item.destinations }}
+  destinations:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with $item.conf }}
+  conf:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+---
+{{- end }}
