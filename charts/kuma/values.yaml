@@ -117,6 +117,6 @@ meshTrafficPermissions:
   # - name: mesh-traffic-permission-name
   #   mesh: default
   #   sources: 
-  #     kuma.io/service: '*'
+  #     - kuma.io/service: '*'
   #   destination:
   #     kuma.io/service: '*'

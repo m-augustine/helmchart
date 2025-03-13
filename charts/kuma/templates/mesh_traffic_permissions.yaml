@@ -12,7 +12,7 @@ spec:
   - targetRef:
       kind: MeshSubset
       tags:
-        {{ $key }}: {{ $value | squote }}
+        {{ toYaml . }}
   {{- end }}
   targetRef:
     kind: MeshSubset
