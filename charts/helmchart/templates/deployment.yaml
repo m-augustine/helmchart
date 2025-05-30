@@ -152,6 +152,15 @@ spec:
                 name: {{ include "app.fullname" . }}
             - secretRef:
                 name: {{ include "app.fullname" . }}
+            {{- range $item := $.Values.envFrom.configMap }}
+            - configMapRef:
+                name: {{ $item }}
+            {{- end }}
+            {{- range $item := $.Values.envFrom.secret }}
+            - secretRef:
+                name: {{ $item }}
+            {{- end }}
+            
           env:
             {{- range $item := $.Values.env.externalSecret }}
             - name: {{ $item.name }}

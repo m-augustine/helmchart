@@ -17,7 +17,12 @@ env: {}
   #   - name: POSTGRES_PASSWORD
   #     secretName: postgres-credentails
   #     secretKey: password
-
+  
+envFrom: {}
+  # configMap:
+  #   - configmap-name
+  # secret:
+  #   - secret-name
 
 files: {}
   # script.sh: |
