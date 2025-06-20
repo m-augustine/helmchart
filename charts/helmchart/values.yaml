@@ -288,10 +288,17 @@ serviceMesh:
   enabled: false
   meshName: "default"
 
-generate:
+keys:
   keyPath: /keys
-  keys:
+  generate:
     ecdsa: false
+
+  static: {}
+    # ecdsa: |
+    #   -----BEGIN EC PRIVATE KEY-----                                                                 
+    #   yourkeyhere                                                      
+    #   -----END EC PRIVATE KEY-----   
+
 
 openTelemetry:
   inject: false

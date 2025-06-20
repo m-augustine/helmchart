@@ -138,10 +138,15 @@ spec:
               readOnly: false
             {{- end }}
             {{- end }}
-          {{- with $.Values.generate  }}
-          {{- if .keys.ecdsa }}
-            - name: ecdsa
-              mountPath: {{ .keyPath }}/ecdsa
+          {{- with $.Values.keys  }}
+          {{- if .generate.ecdsa }}
+            - name: ecdsa-generated
+              mountPath: {{ .keyPath }}/generated/ecdsa
+              readOnly: true
+          {{- end }}
+          {{- if .static.ecdsa }}
+            - name: ecdsa-static
+              mountPath: {{ .keyPath }}/static/ecdsa
               readOnly: true
           {{- end }}
           {{- end }}
@@ -225,11 +230,17 @@ spec:
             claimName:  {{ include "app.fullname" $ }}-{{ $item.name }}
         {{- end }}
         {{- end }} 
-        {{- with $.Values.generate  }}
-        {{- if .keys.ecdsa }}
-        - name: ecdsa
+        {{- with $.Values.keys  }}
+        {{- if .generate.ecdsa }}
+        - name: ecdsa-generated
           secret:
-            secretName: {{ include "app.fullname" $ }}-ecdsa
+            secretName: {{ include "app.fullname" $ }}-ecdsa-generated
+            defaultMode: 0755
+        {{- end }}
+        {{- if .static.ecdsa }}
+        - name: ecdsa-static
+          secret:
+            secretName: {{ include "app.fullname" $ }}-ecdsa-static
             defaultMode: 0755
         {{- end }}
         {{- end }}
