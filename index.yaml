@@ -48,6 +48,15 @@ entries:
     version: 0.1.0
   helmchart:
   - apiVersion: v2
+    created: "2025-06-20T18:46:48.853021478Z"
+    description: The only helm chart you will ever need
+    digest: 8974550143032006b6ff8b7852e6e7798606a180c8ae16610ebeb30c8baf20cb
+    name: helmchart
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/helmchart-1.0.52/helmchart-1.0.52.tgz
+    version: 1.0.52
+  - apiVersion: v2
     created: "2025-05-30T23:45:46.16038142Z"
     description: The only helm chart you will ever need
     digest: bc4ec1bae0a6ea0e5e69be75eaa8e9b711f7d07ae1148bc6f9d177b175cbbb62
@@ -909,4 +918,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.13.0/yugabyte-2.13.0.tgz
     version: 2.13.0
-generated: "2025-05-30T23:45:46.160838036Z"
+generated: "2025-06-20T18:46:48.853310332Z"
