@@ -1,5 +1,5 @@
 {{- range $item := $.Values.persistence }}
-
+---
 {{- if $item.enabled }}
 kind: PersistentVolumeClaim
 apiVersion: v1
