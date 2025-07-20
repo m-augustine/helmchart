@@ -288,6 +288,8 @@ serviceMesh:
   enabled: false
   meshName: "default"
 
+shareProcessNamespace: false
+
 keys:
   keyPath: /keys
   generate:
