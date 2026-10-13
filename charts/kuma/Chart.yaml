@@ -2,7 +2,7 @@ apiVersion: v1
 description: A Helm chart for Kuma Resources
 name: kuma-resources
 type: application
-version: 0.5.0
+version: 0.5.1
 
 ####
 #0.1.0 - initial release
@@ -11,3 +11,4 @@ version: 0.5.0
 #0.4.2 - Support new Mesh resources
 #0.4.3 - Fix MeshTrafficPermission missing default.action; fix MeshExternalService missing match.port; fix toYaml nindent
 #0.5.0 - Add Timeout and MeshTimeout templates
+#0.5.1 - Remove unused $name,$item range vars across all templates; fix RateLimit kind typo

@@ -1,15 +1,15 @@
-{{- range $name, $item := $.Values.trafficPermissions }}
+{{- range $.Values.trafficPermissions }}
 apiVersion: kuma.io/v1alpha1
 kind: TrafficPermission
-mesh: {{ $item.mesh }}
+mesh: {{ .mesh }}
 metadata:
-  name: {{ $item.name }}
+  name: {{ .name }}
 spec:
-  {{- with $item.sources }}
+  {{- with .sources }}
   sources:
     {{- toYaml . | nindent 6 }}
   {{- end }}
-  {{- with $item.destinations }}
+  {{- with .destinations }}
   destinations:
     {{- toYaml . | nindent 6 }}
   {{- end }}

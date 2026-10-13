@@ -1,46 +1,46 @@
-{{- range $name, $item := $.Values.meshes }}
+{{- range $.Values.meshes }}
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
 metadata: 
-  name: {{ $item.name }}
-  {{- with $item.annotations }}
+  name: {{ .name }}
+  {{- with .annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec: 
-  {{- if $item.networking }}
+  {{- if .networking }}
   networking:
     outbound:
-      passthrough: {{ $item.networking.outbound.passthrough }}
+      passthrough: {{ .networking.outbound.passthrough }}
   {{- end }}
-  {{- if $item.mtls }}
+  {{- if .mtls }}
   mtls: 
-    enabledBackend: {{ $item.mtls.enabledBackend }}
-    {{- with $item.mtls.backends }}
+    enabledBackend: {{ .mtls.enabledBackend }}
+    {{- with .mtls.backends }}
     backends:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   {{- end }}
-  {{- if $item.tracing }}
+  {{- if .tracing }}
   tracing: 
-    defaultBackend: {{ $item.tracing.defaultBackend }}
-    {{- with $item.tracing.backends }}
+    defaultBackend: {{ .tracing.defaultBackend }}
+    {{- with .tracing.backends }}
     backends:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   {{- end }}
-  {{- if $item.logging }}
+  {{- if .logging }}
   logging: 
-    defaultBackend: {{ $item.logging.defaultBackend }}
-    {{- with $item.logging.backends }}
+    defaultBackend: {{ .logging.defaultBackend }}
+    {{- with .logging.backends }}
     backends:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   {{- end }}
-  {{- if $item.metrics }}
+  {{- if .metrics }}
   metrics: 
-    enabledBackend: {{ $item.metrics.enabledBackend }}
-    {{- with $item.metrics.backends }}
+    enabledBackend: {{ .metrics.enabledBackend }}
+    {{- with .metrics.backends }}
     backends:
       {{- toYaml . | nindent 6 }}
     {{- end }}

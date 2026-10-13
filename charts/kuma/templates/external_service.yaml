@@ -1,15 +1,15 @@
-{{- range $name, $item := $.Values.externalServices }}
+{{- range $.Values.externalServices }}
 ---
 apiVersion: kuma.io/v1alpha1
 kind: ExternalService
-mesh: {{ $item.mesh }}
+mesh: {{ .mesh }}
 metadata:
-  name: {{ $item.name }}
+  name: {{ .name }}
 spec:
   tags:
-    kuma.io/service: {{ $item.name }}
-    kuma.io/protocol: {{ $item.protocol }} # optional, one of http, http2, tcp, grpc, kafka
+    kuma.io/service: {{ .name }}
+    kuma.io/protocol: {{ .protocol }} # optional, one of http, http2, tcp, grpc, kafka
   networking:
-    address: {{ $item.address }}
+    address: {{ .address }}
 
 {{- end }}

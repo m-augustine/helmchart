@@ -1,18 +1,18 @@
-{{- range $name, $item := $.Values.meshTrafficPermissions }}
+{{- range $.Values.meshTrafficPermissions }}
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
-  name: {{ $item.name }}
+  name: {{ .name }}
   namespace: {{ $.Release.Namespace }}
   labels:
-    kuma.io/mesh: {{ $item.mesh }}
+    kuma.io/mesh: {{ .mesh }}
 spec:
   targetRef:
     kind: MeshSubset
     tags:
-      {{- toYaml $item.destination | nindent 6 }}
+      {{- toYaml .destination | nindent 6 }}
   from:
-  {{- range $item.sources }}
+  {{- range .sources }}
   - targetRef:
       kind: MeshSubset
       tags:
