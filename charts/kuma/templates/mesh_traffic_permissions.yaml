@@ -7,16 +7,18 @@ metadata:
   labels:
     kuma.io/mesh: {{ $item.mesh }}
 spec:
-  from:
-  {{- range $key, $value := .sources }}
-  - targetRef:
-      kind: MeshSubset
-      tags:
-        {{ toYaml . }}
-  {{- end }}
   targetRef:
     kind: MeshSubset
     tags:
-      {{ toYaml .destination }}
+      {{- toYaml $item.destination | nindent 6 }}
+  from:
+  {{- range $item.sources }}
+  - targetRef:
+      kind: MeshSubset
+      tags:
+        {{- toYaml . | nindent 8 }}
+    default:
+      action: Allow
+  {{- end }}
 ---
 {{- end }}

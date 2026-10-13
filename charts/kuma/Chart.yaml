@@ -9,4 +9,5 @@ version: 0.5.0
 #0.2.0 - several additions
 #0.3.0 - TrafficRoutes
 #0.4.2 - Support new Mesh resources
+#0.4.3 - Fix MeshTrafficPermission missing default.action; fix MeshExternalService missing match.port; fix toYaml nindent
 #0.5.0 - Add Timeout and MeshTimeout templates

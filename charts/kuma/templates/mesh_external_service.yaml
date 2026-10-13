@@ -9,7 +9,8 @@ metadata:
     kuma.io/mesh: {{ .mesh }}
 spec:
   match:
-    protocol: {{ .protocol }} 
+    port: {{ .port }}
+    protocol: {{ .protocol }}
   endpoints:
   {{- with .endpoints }}
     {{- toYaml . | nindent 4 }}
