@@ -1,0 +1,15 @@
+{{- range $name, $item := $.Values.meshTimeouts }}
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshTimeout
+metadata:
+  name: {{ $item.name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    kuma.io/mesh: {{ $item.mesh }}
+    {{- with $item.labels }}
+    {{- toYaml . | nindent 4 }}
+    {{- end }}
+spec:
+  {{- toYaml $item.spec | nindent 2 }}
+{{- end }}

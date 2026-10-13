@@ -116,7 +116,62 @@ meshExternalServices:
 meshTrafficPermissions:
   # - name: mesh-traffic-permission-name
   #   mesh: default
-  #   sources: 
+  #   sources:
   #     - kuma.io/service: '*'
   #   destination:
   #     kuma.io/service: '*'
+
+timeouts:
+  # Old Timeout policy API (kuma.io/v1alpha1, cluster-scoped).
+  # Use for Kuma < 2.0 or when targeting services by kuma.io/service tag.
+  # - name: timeout-all-default
+  #   mesh: default
+  #   sources:
+  #     - match:
+  #         kuma.io/service: '*'
+  #   destinations:
+  #     - match:
+  #         kuma.io/service: '*'
+  #   conf:
+  #     connectTimeout: 5s
+  #     tcp:
+  #       idleTimeout: 1h
+  #     http:
+  #       requestTimeout: 15s
+  #       idleTimeout: 1h
+  #       streamIdleTimeout: 30m
+  #       maxStreamDuration: 0s
+  #     grpc:
+  #       streamIdleTimeout: 5m
+  #       maxStreamDuration: 0s
+
+meshTimeouts:
+  # New MeshTimeout policy API (kuma.io/v1alpha1, namespaced).
+  # Use for Kuma >= 2.0 with targetRef-based routing. Deployed to Release.Namespace.
+  # - name: mesh-timeout-all
+  #   mesh: default
+  #   labels: {}       # optional extra labels
+  #   spec:
+  #     targetRef:
+  #       kind: Mesh
+  #       proxyTypes:
+  #         - Sidecar
+  #     from:
+  #       - targetRef:
+  #           kind: Mesh
+  #         default:
+  #           connectionTimeout: 10s
+  #           idleTimeout: 2h
+  #           http:
+  #             requestTimeout: 0s
+  #             streamIdleTimeout: 1h
+  #             maxStreamDuration: 0s
+  #     to:
+  #       - targetRef:
+  #           kind: Mesh
+  #         default:
+  #           connectionTimeout: 5s
+  #           idleTimeout: 1h
+  #           http:
+  #             requestTimeout: 15s
+  #             streamIdleTimeout: 30m
