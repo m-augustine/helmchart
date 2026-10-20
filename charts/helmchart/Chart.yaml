@@ -9,3 +9,4 @@ version: 1.0.57
 #1.0 - Initial push
 #1.0.27 - job only flag
 #1.0.56 - shareProcessNamespace toggle
+#1.0.57 - added deploymentAnnotations and deploymentLabels to values.yaml

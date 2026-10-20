@@ -86,6 +86,10 @@ rbac:
     #   resources: ["pods"]
     #   verbs: ["get", "watch", "list"]
 
+deploymentAnnotations: {}
+
+deploymentLabels: {}
+
 podAnnotations: {}
 
 podLabels: {}
