@@ -8,9 +8,14 @@ metadata:
     kuma.io/mesh: {{ .mesh }}
 spec:
   targetRef:
+    {{- if .externalServiceName }}
+    kind: MeshExternalService
+    name: {{ .externalServiceName }}
+    {{- else }}
     kind: MeshSubset
     tags:
       {{- toYaml .destination | nindent 6 }}
+    {{- end }}
   from:
   {{- range .sources }}
   - targetRef:
