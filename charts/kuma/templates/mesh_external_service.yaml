@@ -7,6 +7,9 @@ metadata:
   namespace: kuma
   labels:
     kuma.io/mesh: {{ .mesh }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
   match:
     port: {{ .port }}
