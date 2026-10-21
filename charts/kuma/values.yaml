@@ -1,12 +1,12 @@
+meshIdentities:
+  # - name: my-mesh-identity
+  #   mesh: my-mesh
+
 meshes:
   # - name: name1
   #   networking:
   #     outbound:
   #       passthrough: false
-  #   mtls:
-  #     enabled: true
-  #     enabledBackend: name1
-  #     backends:
   #       - name: name1
   #         type: builtin
   #   tracing:

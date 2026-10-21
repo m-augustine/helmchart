@@ -2,7 +2,7 @@ apiVersion: v1
 description: A Helm chart for Kuma Resources
 name: kuma-resources
 type: application
-version: 3.0.2
+version: 3.0.3
 
 ####
 #0.1.0 - initial release
@@ -20,4 +20,5 @@ version: 3.0.2
 #0.5.7 - MeshTrafficPermission targetRef uses MeshService (Kuma 3.0 drops MeshSubset support)
 #3.0.1 - MeshTrafficPermission rewritten for Kuma 3.0 schema: Mesh targetRef + SPIFFE prefix allow
 #3.0.2 - Add MeshIdentity template; remove deprecated Mesh.mtls and Mesh.meshServices
+#3.0.3 - Actually add MeshIdentity template (was deleted prematurely in 3.0.2)
 #3.0.0 - for v3 kuma
