@@ -4,7 +4,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshExternalService
 metadata:
   name: {{ .name }}
-  namespace: {{ $.Release.Namespace }}
+  namespace: kuma
   labels:
     kuma.io/mesh: {{ .mesh }}
 spec:
