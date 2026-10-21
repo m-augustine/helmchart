@@ -1,4 +1,5 @@
 {{- range $.Values.meshTrafficPermissions }}
+---
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
 metadata:
@@ -11,16 +12,11 @@ metadata:
     helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
   targetRef:
-    kind: MeshService
-    name: {{ .destinationService }}
-  from:
-  {{- range .sources }}
-  - targetRef:
-      kind: MeshSubset
-      tags:
-        {{- toYaml . | nindent 8 }}
-    default:
-      action: Allow
-  {{- end }}
----
+    kind: Mesh
+  rules:
+    - default:
+        allow:
+          - spiffeID:
+              type: Prefix
+              value: spiffe://{{ .mesh }}/
 {{- end }}
