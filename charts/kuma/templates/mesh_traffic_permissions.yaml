@@ -11,13 +11,8 @@ metadata:
     helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
   targetRef:
-    kind: MeshSubset
-    tags:
-      {{- if .externalServiceName }}
-      kuma.io/service: {{ .externalServiceName }}_kuma_extsvc
-      {{- else }}
-      {{- toYaml .destination | nindent 6 }}
-      {{- end }}
+    kind: MeshService
+    name: {{ .destinationService }}
   from:
   {{- range .sources }}
   - targetRef:

@@ -2,7 +2,7 @@ apiVersion: v1
 description: A Helm chart for Kuma Resources
 name: kuma-resources
 type: application
-version: 0.5.6
+version: 3.0.0
 
 ####
 #0.1.0 - initial release
@@ -17,3 +17,5 @@ version: 0.5.6
 #0.5.4 - MeshTrafficPermission externalServiceName uses MeshSubset with generated _kuma_extsvc tag
 #0.5.5 - Add Helm release labels to MeshTrafficPermission and MeshExternalService
 #0.5.6 - Replace MeshExternalService with MeshPassthrough for external service connectivity
+#0.5.7 - MeshTrafficPermission targetRef uses MeshService (Kuma 3.0 drops MeshSubset support)
+#3.0.0 - for v3 kuma
