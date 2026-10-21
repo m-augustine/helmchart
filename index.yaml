@@ -680,6 +680,15 @@ entries:
     - https://github.com/m-augustine/helmchart/releases/download/kuma-resources-3.0.0/kuma-resources-3.0.0.tgz
     version: 3.0.0
   - apiVersion: v1
+    created: "2026-10-21T23:53:58.049778626Z"
+    description: A Helm chart for Kuma Resources
+    digest: 363e5fe1774e630343537c740edc96ac1c587f76fc58b9d1fd04865ef5756480
+    name: kuma-resources
+    type: application
+    urls:
+    - https://github.com/m-augustine/helmchart/releases/download/kuma-resources-2.14.6-1/kuma-resources-2.14.6-1.tgz
+    version: 2.14.6-1
+  - apiVersion: v1
     created: "2026-10-21T20:18:01.622032728Z"
     description: A Helm chart for Kuma Resources
     digest: 8c750ba062390665b4d040457d0d404f34e25c3819aeee0df36be569ea5d895b
@@ -1044,4 +1053,4 @@ entries:
     urls:
     - https://github.com/m-augustine/helmchart/releases/download/yugabyte-2.13.0/yugabyte-2.13.0.tgz
     version: 2.13.0
-generated: "2026-10-21T22:57:27.544685851Z"
+generated: "2026-10-21T23:53:58.049986982Z"
