@@ -1,0 +1,22 @@
+{{- range $.Values.meshes }}
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshIdentity
+metadata:
+  name: {{ .name }}
+  namespace: kuma
+  labels:
+    kuma.io/mesh: {{ .name }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+spec:
+  spiffeID:
+    trustDomain: {{ .name }}
+  provider:
+    type: Bundled
+    bundled:
+      autogenerate:
+        enabled: true
+      meshTrustCreation: Enabled
+{{- end }}
