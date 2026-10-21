@@ -1,0 +1,23 @@
+{{- range $.Values.meshPassthroughs }}
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshPassthrough
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    kuma.io/mesh: {{ .mesh }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+spec:
+  targetRef:
+    kind: Mesh
+  default:
+    passthroughMode: Matched
+    appendMatch:
+      - type: Domain
+        value: {{ .hostname }}
+        port: {{ .port }}
+        protocol: {{ .protocol | default "tls" }}
+{{- end }}
