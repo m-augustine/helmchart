@@ -1,7 +1,3 @@
-meshIdentities:
-  # - name: my-mesh-identity
-  #   mesh: my-mesh
-
 meshes:
   # - name: name1
   #   networking:

@@ -1,20 +1,21 @@
 {{- range $.Values.meshes }}
+---
 apiVersion: kuma.io/v1alpha1
 kind: Mesh
-metadata: 
+metadata:
   name: {{ .name }}
   {{- with .annotations }}
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-spec: 
+spec:
   {{- if .networking }}
   networking:
     outbound:
       passthrough: {{ .networking.outbound.passthrough }}
   {{- end }}
   {{- if .mtls }}
-  mtls: 
+  mtls:
     enabledBackend: {{ .mtls.enabledBackend }}
     {{- with .mtls.backends }}
     backends:
@@ -22,7 +23,7 @@ spec:
     {{- end }}
   {{- end }}
   {{- if .tracing }}
-  tracing: 
+  tracing:
     defaultBackend: {{ .tracing.defaultBackend }}
     {{- with .tracing.backends }}
     backends:
@@ -30,7 +31,7 @@ spec:
     {{- end }}
   {{- end }}
   {{- if .logging }}
-  logging: 
+  logging:
     defaultBackend: {{ .logging.defaultBackend }}
     {{- with .logging.backends }}
     backends:
@@ -38,7 +39,7 @@ spec:
     {{- end }}
   {{- end }}
   {{- if .metrics }}
-  metrics: 
+  metrics:
     enabledBackend: {{ .metrics.enabledBackend }}
     {{- with .metrics.backends }}
     backends:
@@ -46,4 +47,23 @@ spec:
     {{- end }}
   {{- end }}
 ---
+apiVersion: kuma.io/v1alpha1
+kind: MeshIdentity
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    kuma.io/mesh: {{ .name }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+spec:
+  spiffeID:
+    trustDomain: {{ .name }}
+  provider:
+    type: Bundled
+    bundled:
+      autogenerate:
+        enabled: true
+      meshTrustCreation: Enabled
 {{- end }}
