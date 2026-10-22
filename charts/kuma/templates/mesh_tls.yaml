@@ -13,9 +13,7 @@ metadata:
 spec:
   targetRef:
     kind: Mesh
-  from:
-    - targetRef:
-        kind: Mesh
-      default:
+  rules:
+    - default:
         mode: Strict
 {{- end }}
