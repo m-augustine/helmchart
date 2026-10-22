@@ -11,6 +11,9 @@ metadata:
     app.kubernetes.io/instance: {{ $.Release.Name }}
     helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
+  selector:
+    dataplane:
+      matchLabels: {}
   spiffeID:
     trustDomain: {{ .name }}
   provider:
