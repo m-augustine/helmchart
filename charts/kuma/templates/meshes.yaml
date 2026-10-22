@@ -46,4 +46,8 @@ spec:
       {{- toYaml . | nindent 6 }}
     {{- end }}
   {{- end }}
+  {{- if .meshServices }}
+  meshServices:
+    mode: {{ .meshServices.mode }}
+  {{- end }}
 {{- end }}
