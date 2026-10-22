@@ -4,7 +4,7 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTLS
 metadata:
   name: {{ .name }}
-  namespace: {{ $.Release.Namespace }}
+  namespace: kuma
   labels:
     kuma.io/mesh: {{ .name }}
     app.kubernetes.io/managed-by: Helm
