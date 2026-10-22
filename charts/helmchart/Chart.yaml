@@ -3,10 +3,11 @@ apiVersion: v2
 description: The only helm chart you will ever need
 name: helmchart
 type: application
-version: 1.1.0
+version: 2.0.0
 
 
 #1.0 - Initial push
 #1.0.27 - job only flag
 #1.0.56 - shareProcessNamespace toggle
 #1.1.0 - added deploymentAnnotations and deploymentLabels to values.yaml
+#2.0.0 - fullname is release name only, removed -helmchart suffix

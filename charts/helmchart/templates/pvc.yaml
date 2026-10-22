@@ -4,7 +4,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name:  {{ include "app.fullname" $ }}-{{ $item.name }}
+  name: {{ default (printf "%s-%s" (include "app.fullname" $) $item.name) $item.fullName }}
   labels:
     {{- include "app.labels" $ | nindent 4 }}
 spec:

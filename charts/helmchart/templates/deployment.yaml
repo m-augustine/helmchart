@@ -235,7 +235,7 @@ spec:
         {{- if $item.enabled }}
         - name: {{ $item.name }}
           persistentVolumeClaim:
-            claimName:  {{ include "app.fullname" $ }}-{{ $item.name }}
+            claimName: {{ default (printf "%s-%s" (include "app.fullname" $) $item.name) $item.fullName }}
         {{- end }}
         {{- end }} 
         {{- with $.Values.keys  }}
