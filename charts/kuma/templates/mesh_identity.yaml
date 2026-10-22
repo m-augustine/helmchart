@@ -18,5 +18,6 @@ spec:
     bundled:
       autogenerate:
         enabled: true
+      insecureAllowSelfSigned: true
       meshTrustCreation: Enabled
 {{- end }}
