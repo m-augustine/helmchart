@@ -1,0 +1,21 @@
+{{- range $.Values.meshes }}
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshTLS
+metadata:
+  name: {{ .name }}
+  namespace: {{ $.Release.Namespace }}
+  labels:
+    kuma.io/mesh: {{ .name }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+spec:
+  targetRef:
+    kind: Mesh
+  from:
+    - targetRef:
+        kind: Mesh
+      default:
+        mode: Strict
+{{- end }}
