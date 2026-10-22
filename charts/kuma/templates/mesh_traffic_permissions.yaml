@@ -12,24 +12,17 @@ metadata:
     helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
   targetRef:
-    {{- if .destination }}
     kind: Dataplane
     labels:
-      {{- range $k, $v := .destination }}
+      {{- range $k, $v := .targetLabels }}
       {{ $k }}: {{ $v }}
       {{- end }}
-    {{- else }}
-    kind: Mesh
-    {{- end }}
-  from:
-    {{- range .sources }}
-    - targetRef:
-        kind: MeshSubset
-        tags:
-          {{- range $k, $v := . }}
-          {{ $k }}: {{ $v }}
+  rules:
+    - default:
+        allow:
+          {{- range .allowSpiffeIDs }}
+          - spiffeID:
+              type: Exact
+              value: {{ . }}
           {{- end }}
-      default:
-        action: Allow
-    {{- end }}
 {{- end }}
