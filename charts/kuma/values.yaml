@@ -1,4 +1,4 @@
-meshes:
+meshes: []
   # - name: name1
   #   networking:
   #     outbound:
@@ -29,7 +29,7 @@ meshes:
   #           port: 5670
   #           path: /metrics"
 
-rateLimits:
+rateLimits: []
   # - name: rl_name
   #   mesh: mesh_name
   #   sources:
@@ -49,7 +49,7 @@ rateLimits:
   #             value: "true"
   #             append: true
 
-trafficTraces:
+trafficTraces: []
   # - name: traffictrace
   #   mesh: default
   #   selectors: 
@@ -58,7 +58,7 @@ trafficTraces:
   #   conf:
   #     backend: jaeger-collector # or the name of any backend defined for the mesh
 
-trafficLogs:
+trafficLogs: []
   # - name: log-all
   #   mesh: staging
   #   sources:
@@ -70,7 +70,7 @@ trafficLogs:
   #   confg:
   #     backend: file
 
-trafficPermissions:
+trafficPermissions: []
   # - name: trafficPermissions
   #   mesh: default
   #   sources:
@@ -80,7 +80,7 @@ trafficPermissions:
   #     - match:
   #         kuma.io/service: '*'
 
-trafficRoutes:
+trafficRoutes: []
   # - name: route-all-default
   #   mesh: default
   #   sources:
@@ -95,13 +95,13 @@ trafficRoutes:
   #     destination:
   #       kuma.io/service: '*'
 
-externalServices:
+externalServices: []
   # - name: github
   #   mesh: default
   #   protocol: http2
   #   address: github.com:443
 
-meshExternalServices:
+meshExternalServices: []
   # - name: github
   #   mesh: default
   #   protocol: tcp
@@ -109,7 +109,7 @@ meshExternalServices:
   #     - address: github.com
   #       port: 443
 
-meshTrafficPermissions:
+meshTrafficPermissions: []
   # - name: mesh-traffic-permission-name
   #   mesh: default
   #   sources:
@@ -117,7 +117,7 @@ meshTrafficPermissions:
   #   destination:
   #     kuma.io/service: '*'
 
-timeouts:
+timeouts: []
   # Old Timeout policy API (kuma.io/v1alpha1, cluster-scoped).
   # Use for Kuma < 2.0 or when targeting services by kuma.io/service tag.
   # - name: timeout-all-default
@@ -141,7 +141,7 @@ timeouts:
   #       streamIdleTimeout: 5m
   #       maxStreamDuration: 0s
 
-meshTimeouts:
+meshTimeouts: []
   # New MeshTimeout policy API (kuma.io/v1alpha1, namespaced).
   # Use for Kuma >= 2.0 with targetRef-based routing. Deployed to Release.Namespace.
   # - name: mesh-timeout-all
@@ -171,3 +171,15 @@ meshTimeouts:
   #           http:
   #             requestTimeout: 15s
   #             streamIdleTimeout: 30m
+
+meshTCPRoutes:
+  - name: test
+    mesh: test
+    sourceLabels:
+      cgdatavault: mesh-access
+    destinationLabels:
+      cluster-name: cgdatavault
+    destinationPorts:
+      - 5432
+    sourceLabels:
+      cluster-name: cgdatavault
