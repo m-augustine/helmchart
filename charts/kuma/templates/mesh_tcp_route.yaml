@@ -1,5 +1,5 @@
 {{- range $.Values.meshTCPRoutes }}
-{{- set $destinationLabels := .destinationLabels }}
+{{- $destinationLabels := .destinationLabels }}
 ---
 apiVersion: kuma.io/v1alpha1
 kind: MeshTCPRoute

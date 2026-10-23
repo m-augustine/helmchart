@@ -172,14 +172,12 @@ meshTimeouts: []
   #             requestTimeout: 15s
   #             streamIdleTimeout: 30m
 
-meshTCPRoutes:
-  - name: test
-    mesh: test
-    sourceLabels:
-      cgdatavault: mesh-access
-    destinationLabels:
-      cluster-name: cgdatavault
-    destinationPorts:
-      - 5432
-    sourceLabels:
-      cluster-name: cgdatavault
+meshTCPRoutes: []
+  # - name: test
+  #   mesh: test
+  #   sourceLabels:
+  #     cgdatavault: mesh-access
+  #   destinationLabels:
+  #     cluster-name: cgdatavault
+  #   destinationPorts:
+  #     - 5432
