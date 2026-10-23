@@ -4,12 +4,29 @@ apiVersion: kuma.io/v1alpha1
 kind: MeshTimeout
 metadata:
   name: {{ .name }}
-  namespace: {{ $.Release.Namespace }}
+  namespace: kuma
   labels:
     kuma.io/mesh: {{ .mesh }}
-    {{- with .labels }}
-    {{- toYaml . | nindent 4 }}
-    {{- end }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
-  {{- toYaml .spec | nindent 2 }}
+  targetRef:
+    {{- if .targetLabels }}
+    kind: Dataplane
+    labels:
+      {{- toYaml .targetLabels | nindent 6 }}
+    {{- else }}
+    kind: Mesh
+    proxyTypes:
+      {{- toYaml .proxyTypes | nindent 6 }}
+    {{- end }}
+  {{- with .from }}
+  from:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .to }}
+  to:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
 {{- end }}

@@ -1,0 +1,30 @@
+{{- range $.Values.meshCircuitBreakers }}
+---
+apiVersion: kuma.io/v1alpha1
+kind: MeshCircuitBreaker
+metadata:
+  name: {{ .name }}
+  namespace: kuma
+  labels:
+    kuma.io/mesh: {{ .mesh }}
+    app.kubernetes.io/managed-by: Helm
+    app.kubernetes.io/instance: {{ $.Release.Name }}
+    helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
+spec:
+  targetRef:
+    {{- if .targetLabels }}
+    kind: Dataplane
+    labels:
+      {{- toYaml .targetLabels | nindent 6 }}
+    {{- else }}
+    kind: Mesh
+    {{- end }}
+  {{- with .to }}
+  to:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+  {{- with .rules }}
+  rules:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
+{{- end }}
