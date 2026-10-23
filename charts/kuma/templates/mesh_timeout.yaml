@@ -21,6 +21,10 @@ spec:
     proxyTypes:
       {{- toYaml .proxyTypes | nindent 6 }}
     {{- end }}
+  {{- with .rules }}
+  rules:
+    {{- toYaml . | nindent 4 }}
+  {{- end }}
   {{- with .from }}
   from:
     {{- toYaml . | nindent 4 }}
