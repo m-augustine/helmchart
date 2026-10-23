@@ -25,12 +25,4 @@ spec:
   rules:
     {{- toYaml . | nindent 4 }}
   {{- end }}
-  {{- with .from }}
-  from:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
-  {{- with .to }}
-  to:
-    {{- toYaml . | nindent 4 }}
-  {{- end }}
 {{- end }}
