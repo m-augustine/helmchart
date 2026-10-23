@@ -50,4 +50,8 @@ spec:
   meshServices:
     mode: {{ .meshServices.mode }}
   {{- end }}
+  {{- if .sk}}
+  skipCreatingInitialPolicies: ['*']
+  {{- end }}
+
 {{- end }}
