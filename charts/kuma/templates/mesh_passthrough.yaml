@@ -12,7 +12,15 @@ metadata:
     helm.sh/chart: {{ $.Chart.Name }}-{{ $.Chart.Version }}
 spec:
   targetRef:
+    {{- if .sourceLabels }}
+    kind: Dataplane
+    labels:
+      {{- range $k, $v := .sourceLabels }}
+      {{ $k }}: {{ $v }}
+      {{- end }}
+    {{- else }}
     kind: Mesh
+    {{- end }}
   default:
     passthroughMode: Matched
     appendMatch:

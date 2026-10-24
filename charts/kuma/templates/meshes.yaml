@@ -9,6 +9,10 @@ metadata:
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:
+  {{- if .zoneEgress }}
+  routing:
+    zoneEgress: true
+  {{- end }}
   {{- if .networking }}
   networking:
     outbound:
