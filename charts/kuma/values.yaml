@@ -181,3 +181,7 @@ meshTCPRoutes: []
   #     cluster-name: cgdatavault
   #   destinationPorts:
   #     - 5432
+
+meshPassthroughs:
+  - name: cgsphere{{ .Environment.Name }}-deny-all
+    mesh: cgsphere{{ .Environment.Name }}
