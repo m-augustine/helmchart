@@ -1,4 +1,5 @@
 {{- range $.Values.meshTrafficPermissions }}
+{{- $type := .type }}
 ---
 apiVersion: kuma.io/v1alpha1
 kind: MeshTrafficPermission
@@ -22,7 +23,7 @@ spec:
         allow:
           {{- range .allowSpiffeIDs }}
           - spiffeID:
-              type: Exact
+              type: {{ $type | default "Exact" }}
               value: {{ . }}
           {{- end }}
 {{- end }}
