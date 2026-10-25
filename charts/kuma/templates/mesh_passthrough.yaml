@@ -22,10 +22,14 @@ spec:
     kind: Mesh
     {{- end }}
   default:
+    {{- if not .hostname }}
     passthroughMode: Matched
     appendMatch:
       - type: Domain
         value: {{ .hostname }}
         port: {{ .port }}
         protocol: {{ .protocol | default "tls" }}
+    {{- else }}
+    passthroughMode: None
+    {{- end }}
 {{- end }}
